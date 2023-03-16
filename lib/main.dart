@@ -5,9 +5,9 @@ import 'screens/authentication/spashScreen.dart';
 import 'screens/authentication/landingScreen.dart';
 import 'screens/authentication/loginScreen.dart';
 import 'screens/authentication/signUpScreen.dart';
-import 'screens/authentication/forgetPwScreen.dart';
+import 'screens/authentication/forgetPasswordScreen.dart';
 import 'screens/authentication/sentOTPScreen.dart';
-import 'screens/authentication/newPwScreen.dart';
+import 'screens/authentication/resetPasswordScreen.dart';
 import 'screens/intro/introScreen.dart';
 import 'screens/home/homeScreen.dart';
 import 'screens/menu/menuScreen.dart';
@@ -80,6 +80,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
+      debugShowCheckedModeBanner: false,
       home: SplashScreen(),
       routes: {
         LandingScreen.routeName: (context) => LandingScreen(),
