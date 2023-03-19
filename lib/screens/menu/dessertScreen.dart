@@ -1,118 +1,143 @@
 import 'package:flutter/material.dart';
 import 'package:bite_buddies/const/colors.dart';
 import 'package:bite_buddies/utils/helper.dart';
-import 'package:bite_buddies/widgets/customNavBar.dart';
-import 'package:bite_buddies/widgets/searchBar.dart';
 
-class DessertScreen extends StatelessWidget {
+class DessertScreen extends StatefulWidget {
   static const routeName = '/dessertScreen';
+  
+
+  @override
+  State<DessertScreen> createState() => _DessertScreenState();
+}
+
+class _DessertScreenState extends State<DessertScreen> {
+  bool showSearch = false;
   @override
   Widget build(BuildContext context) {
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
+    var screenWidth = queryData.size.width / 100;
     return Scaffold(
-      body: Stack(
+      appBar: AppBar(
+        title: Text(
+          "Desserts",
+          style: TextStyle(
+            color: AppColor.secondary,
+            fontSize: screenWidth * 6,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        automaticallyImplyLeading: false,
+        toolbarHeight: screenWidth * 20,
+        elevation: 1,
+        backgroundColor: AppColor.bright,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: AppColor.secondary,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              showSearch?Icons.close:Icons.search,
+              color: AppColor.secondary,
+            ),
+            onPressed: () {
+              setState(() {
+                showSearch = !showSearch;
+              });
+            },
+          ),
+        ],
+      ),
+      backgroundColor: AppColor.bright,
+      body: Column(
         children: [
-          SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          showSearch
+              ? Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 5, vertical: screenWidth * 2),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 5),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        border: Border.all(color: AppColor.primary)),
                     child: Row(
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Icon(
-                            Icons.arrow_back_ios_rounded,
+                        Expanded(
+                          child: TextField(
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Search",
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.search,
                             color: AppColor.primary,
                           ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Text(
-                                "Desserts",
-                                style: Helper.getTheme(context).headline5,
-                              ),
-                            ],
-                          ),
-                        ),
-                        Image.asset(
-                          Helper.getAssetName("cart.png", "virtual"),
+                          onPressed: () {
+                          },
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 20,
+                )
+              : SizedBox(),
+          Expanded(
+            child: ListView(
+              children: [
+                DessertCard(
+                  image: Image.asset(
+                    Helper.getAssetName("apple_pie.jpg", "real"),
+                    fit: BoxFit.cover,
                   ),
-                  SearchBar(
-                    title: "Search Food",
+                  name: "French Apple Pie",
+                  shop: "Minute by tuk tuk",
+                  rating: "4.9",
+                ),
+                SizedBox(
+                  height: screenWidth * 2,
+                ),
+                DessertCard(
+                  image: Image.asset(
+                    Helper.getAssetName("dessert2.jpg", "real"),
+                    fit: BoxFit.cover,
                   ),
-                  SizedBox(
-                    height: 15,
+                  name: "Dark Chocolate Cake",
+                  shop: "Cakes by Tella",
+                  rating: "4.7",
+                ),
+                SizedBox(
+                  height: screenWidth * 2,
+                ),
+                DessertCard(
+                  image: Image.asset(
+                    Helper.getAssetName("dessert4.jpg", "real"),
+                    fit: BoxFit.cover,
                   ),
-                  DessertCard(
-                    image: Image.asset(
-                      Helper.getAssetName("apple_pie.jpg", "real"),
-                      fit: BoxFit.cover,
-                    ),
-                    name: "French Apple Pie",
-                    shop: "Minute by tuk tuk",
-                    rating: "4.9",
+                  name: "Street Shake",
+                  shop: "Cafe Racer",
+                  rating: "4.9",
+                ),
+                SizedBox(
+                  height: screenWidth * 2,
+                ),
+                DessertCard(
+                  image: Image.asset(
+                    Helper.getAssetName("dessert5.jpg", "real"),
+                    fit: BoxFit.cover,
                   ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  DessertCard(
-                    image: Image.asset(
-                      Helper.getAssetName("dessert2.jpg", "real"),
-                      fit: BoxFit.cover,
-                    ),
-                    name: "Dark Chocolate Cake",
-                    shop: "Cakes by Tella",
-                    rating: "4.7",
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  DessertCard(
-                    image: Image.asset(
-                      Helper.getAssetName("dessert4.jpg", "real"),
-                      fit: BoxFit.cover,
-                    ),
-                    name: "Street Shake",
-                    shop: "Cafe Racer",
-                    rating: "4.9",
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  DessertCard(
-                    image: Image.asset(
-                      Helper.getAssetName("dessert5.jpg", "real"),
-                      fit: BoxFit.cover,
-                    ),
-                    name: "Fudgy Chewy Brownies",
-                    shop: "Minute by tuk tuk",
-                    rating: "4.9",
-                  ),
-                  SizedBox(
-                    height: 100,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            child: CustomNavBar(
-              menu: true,
+                  name: "Fudgy Chewy Brownies",
+                  shop: "Minute by tuk tuk",
+                  rating: "4.9",
+                ),
+              ],
             ),
           ),
         ],

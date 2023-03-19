@@ -2,336 +2,162 @@ import 'package:flutter/material.dart';
 import 'package:bite_buddies/const/colors.dart';
 import 'package:bite_buddies/screens/menu/dessertScreen.dart';
 import 'package:bite_buddies/utils/helper.dart';
-import 'package:bite_buddies/widgets/customNavBar.dart';
-import 'package:bite_buddies/widgets/searchBar.dart';
 
-class MenuScreen extends StatelessWidget {
+class MenuScreen extends StatefulWidget {
   static const routeName = "/menuScreen";
+
+  @override
+  State<MenuScreen> createState() => _MenuScreenState();
+}
+
+class _MenuScreenState extends State<MenuScreen> {
+  bool showSearch = false;
+
   @override
   Widget build(BuildContext context) {
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
+    var screenWidth = queryData.size.width / 100;
     return Scaffold(
-      body: Stack(
+      appBar: AppBar(
+        title: Text(
+          "Menu",
+          style: TextStyle(
+            color: AppColor.secondary,
+            fontSize: screenWidth * 6,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        toolbarHeight: screenWidth * 20,
+        elevation: 1,
+        backgroundColor: AppColor.bright,
+        actions: [
+          IconButton(
+            icon: Icon(
+              showSearch?Icons.close:Icons.search,
+              color: AppColor.primary,
+            ),
+            onPressed: () {
+              setState(() {
+                showSearch = !showSearch;
+              });
+            },
+          ),
+        ],
+      ),
+      backgroundColor: AppColor.bright,
+      body: Column(
         children: [
-          SafeArea(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Menu",
-                        style: Helper.getTheme(context).headline5,
+          showSearch?Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: screenWidth * 5, vertical: screenWidth * 2),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 5),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  border: Border.all(color: AppColor.primary)),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: "Search for food",
+                        border: InputBorder.none,
                       ),
-                      Image.asset(
-                        Helper.getAssetName("cart.png", "virtual"),
-                      )
-                    ],
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                SearchBar(title: "Search Food"),
-                SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                    height: Helper.getScreenHeight(context) * 0.6,
-                    width: Helper.getScreenWidth(context),
-                    child: Stack(
-                      children: [
-                        Container(
-                          height: double.infinity,
-                          width: 100,
-                          decoration: ShapeDecoration(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(30),
-                                  bottomRight: Radius.circular(30),
-                                ),
-                              ),
-                              color: AppColor.main),
+                  Icon(Icons.search),
+                ],
+              ),
+            ),
+          ):SizedBox(),
+          Expanded(
+            child: ListView(
+              children: [
+                // burger Card
+                menuCard(screenWidth, name: "Burgers", image: "hamburger3.jpg"),
+                menuCard(screenWidth, name: "Food", image: "western2.jpg"),
+                menuCard(screenWidth, name: "Beverage", image: "coffee.jpg"),
+                menuCard(screenWidth, name: "Dessert", image: "dessert2.jpg",
+                    onTapped: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => DessertScreen(),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              MenuCard(
-                                imageShape: ClipOval(
-                                  child: Container(
-                                    height: 60,
-                                    width: 60,
-                                    child: Image.asset(
-                                      Helper.getAssetName(
-                                          "western2.jpg", "real"),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                name: "Food",
-                                count: "120",
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              MenuCard(
-                                imageShape: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Container(
-                                    height: 60,
-                                    width: 60,
-                                    child: Image.asset(
-                                      Helper.getAssetName(
-                                          "coffee2.jpg", "real"),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                name: "Beverage",
-                                count: "220",
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed(DessertScreen.routeName);
-                                },
-                                child: MenuCard(
-                                  imageShape: ClipPath(
-                                    clipper: CustomTriangle(),
-                                    child: Container(
-                                      height: 70,
-                                      width: 70,
-                                      child: Image.asset(
-                                        Helper.getAssetName(
-                                            "dessert.jpg", "real"),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  name: "Desserts",
-                                  count: "135",
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              MenuCard(
-                                imageShape: ClipPath(
-                                  clipper: CustomDiamond(),
-                                  child: Container(
-                                    height: 80,
-                                    width: 80,
-                                    child: Image.asset(
-                                      Helper.getAssetName(
-                                          "hamburger3.jpg", "real"),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                name: "Promotions",
-                                count: "25",
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ))
+                      );                },),
+                menuCard(screenWidth, name: "Bakery", image: "bakery.jpg"),
+                menuCard(screenWidth, name: "Pizza", image: "pizza2.jpg"),
+
               ],
             ),
           ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            child: CustomNavBar(
-              menu: true,
-            ),
-          )
         ],
       ),
     );
   }
-}
 
-class MenuCard extends StatelessWidget {
-  const MenuCard({
-    Key key,
-    @required String name,
-    @required String count,
-    @required Widget imageShape,
-  })  : _name = name,
-        _count = count,
-        _imageShape = imageShape,
-        super(key: key);
-
-  final String _name;
-  final String _count;
-  final Widget _imageShape;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          height: 80,
-          width: double.infinity,
-          margin: const EdgeInsets.symmetric(
-            horizontal: 20,
-          ),
-          padding: const EdgeInsets.symmetric(
-            horizontal: 80,
-          ),
+  menuCard(double screenWidth, {String image, String name, Function onTapped}) {
+    return GestureDetector(
+      onTap: () {
+        if (onTapped!= null) onTapped();
+      },
+      child: Card(
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Container(
+          height: screenWidth * 30,
+          width: screenWidth * 90,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(50),
-              bottomLeft: Radius.circular(50),
-              topRight: Radius.circular(10),
-              bottomRight: Radius.circular(10),
-            ),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: AppColor.placeholder,
-                offset: Offset(0, 5),
-                blurRadius: 10,
+            borderRadius: BorderRadius.circular(20),
+            image: DecorationImage(
+              image: AssetImage(
+                Helper.getAssetName(image, "real"),
               ),
-            ],
+              fit: BoxFit.cover,
+            ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Stack(
             children: [
-              Text(
-                _name,
-                style: Helper.getTheme(context).headline4.copyWith(
-                      color: AppColor.primary,
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  height: screenWidth * 10,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
                     ),
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        AppColor.bright.withOpacity(0.9),
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
+                ),
               ),
-              SizedBox(
-                height: 5,
+              Positioned(
+                bottom: screenWidth * 2,
+                left: screenWidth * 5,
+                child: Text(
+                  name,
+                  style: TextStyle(
+                    color: AppColor.bright,
+                    fontSize: screenWidth * 6,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-              Text("$_count items")
             ],
           ),
         ),
-        SizedBox(
-          height: 80,
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: _imageShape,
-          ),
-        ),
-        SizedBox(
-          height: 80,
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: Container(
-              height: 40,
-              width: 40,
-              decoration: ShapeDecoration(
-                  shape: CircleBorder(),
-                  color: Colors.white,
-                  shadows: [
-                    BoxShadow(
-                      color: AppColor.placeholder,
-                      offset: Offset(0, 2),
-                      blurRadius: 5,
-                    )
-                  ]),
-              child: Image.asset(
-                Helper.getAssetName("next_filled.png", "virtual"),
-              ),
-            ),
-          ),
-        ),
-      ],
+      ),
     );
-  }
-}
-
-class CustomTriangle extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Offset controlpoint = Offset(size.width * 0, size.height * 0.5);
-    Offset endpoint = Offset(size.width * 0.2, size.height * 0.85);
-    Offset controlpoint2 = Offset(size.width * 0.33, size.height);
-    Offset endpoint2 = Offset(size.width * 0.6, size.height * 0.9);
-    Offset controlpoint3 = Offset(size.width * 1.4, size.height * 0.5);
-    Offset endpoint3 = Offset(size.width * 0.6, size.height * 0.1);
-    Offset controlpoint4 = Offset(size.width * 0.33, size.height * 0);
-    Offset endpoint4 = Offset(size.width * 0.2, size.height * 0.15);
-
-    Path path = new Path()
-      ..moveTo(size.width * 0.2, size.height * 0.15)
-      ..quadraticBezierTo(
-        controlpoint.dx,
-        controlpoint.dy,
-        endpoint.dx,
-        endpoint.dy,
-      )
-      ..quadraticBezierTo(
-        controlpoint2.dx,
-        controlpoint2.dy,
-        endpoint2.dx,
-        endpoint2.dy,
-      )
-      ..quadraticBezierTo(
-        controlpoint3.dx,
-        controlpoint3.dy,
-        endpoint3.dx,
-        endpoint3.dy,
-      )
-      ..quadraticBezierTo(
-        controlpoint4.dx,
-        controlpoint4.dy,
-        endpoint4.dx,
-        endpoint4.dy,
-      );
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
-    return true;
-  }
-}
-
-class CustomDiamond extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-    path.moveTo(size.width * 0.1000000, size.height * 0.4400000);
-    path.quadraticBezierTo(size.width * 0.0243800, size.height * 0.5247000,
-        size.width * 0.1000000, size.height * 0.6000000);
-    path.quadraticBezierTo(size.width * 0.3550000, size.height * 0.8250000,
-        size.width * 0.4400000, size.height * 0.9000000);
-    path.quadraticBezierTo(size.width * 0.5140600, size.height * 0.9574800,
-        size.width * 0.5800000, size.height * 0.9000000);
-    path.quadraticBezierTo(size.width * 0.8200000, size.height * 0.6450000,
-        size.width * 0.9000000, size.height * 0.5600000);
-    path.quadraticBezierTo(size.width * 0.9500400, size.height * 0.5009400,
-        size.width * 0.9000000, size.height * 0.4200000);
-    path.quadraticBezierTo(size.width * 0.6450000, size.height * 0.1800000,
-        size.width * 0.5600000, size.height * 0.1000000);
-    path.quadraticBezierTo(size.width * 0.5029400, size.height * 0.0446800,
-        size.width * 0.4200000, size.height * 0.1000000);
-    path.quadraticBezierTo(size.width * 0.3400000, size.height * 0.1850000,
-        size.width * 0.1000000, size.height * 0.4400000);
-    path.close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
-    return true;
   }
 }

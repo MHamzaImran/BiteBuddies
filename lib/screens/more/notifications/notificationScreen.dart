@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bite_buddies/const/colors.dart';
 import 'package:bite_buddies/utils/helper.dart';
-import 'package:bite_buddies/widgets/customNavBar.dart';
 
 class NotificationScreen extends StatelessWidget {
   static const routeName = "/notiScreen";
@@ -77,12 +76,6 @@ class NotificationScreen extends StatelessWidget {
               ),
             ],
           )),
-          Positioned(
-              bottom: 0,
-              left: 0,
-              child: CustomNavBar(
-                menu: true,
-              ))
         ],
       ),
     );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bite_buddies/const/colors.dart';
 import 'package:bite_buddies/utils/helper.dart';
-import 'package:bite_buddies/widgets/customNavBar.dart';
 import 'package:bite_buddies/widgets/searchBar.dart';
 
 class ChangeAddressScreen extends StatelessWidget {
@@ -162,11 +161,6 @@ class ChangeAddressScreen extends StatelessWidget {
                 )
               ],
             ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            child: CustomNavBar(),
           ),
         ],
       ),

@@ -2,7 +2,6 @@ import 'package:clip_shadow/clip_shadow.dart';
 import 'package:flutter/material.dart';
 import 'package:bite_buddies/const/colors.dart';
 import 'package:bite_buddies/utils/helper.dart';
-import 'package:bite_buddies/widgets/customNavBar.dart';
 
 class IndividualItem extends StatelessWidget {
   static const routeName = "/individualScreen";
@@ -601,11 +600,6 @@ class IndividualItem extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            child: CustomNavBar(),
           ),
         ],
       ),

@@ -1,222 +1,172 @@
+import 'package:bite_buddies/screens/authentication/landingScreen.dart';
+import 'package:bite_buddies/screens/more/payment/paymentScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:bite_buddies/const/colors.dart';
-import 'package:bite_buddies/screens/more/aboutScreen.dart';
-import 'package:bite_buddies/screens/more/inboxScreen.dart';
-import 'package:bite_buddies/screens/more/myOrderScreen.dart';
-import 'package:bite_buddies/screens/more/notificationScreen.dart';
-import 'package:bite_buddies/screens/more/paymentScreen.dart';
-import 'package:bite_buddies/utils/helper.dart';
-import 'package:bite_buddies/widgets/customNavBar.dart';
+import 'package:bite_buddies/screens/more/about/aboutScreen.dart';
+import 'package:bite_buddies/screens/more/inbox/inboxScreen.dart';
+import 'package:bite_buddies/screens/more/orders/myOrderScreen.dart';
+import 'package:bite_buddies/screens/more/notifications/notificationScreen.dart';
 
 class MoreScreen extends StatelessWidget {
   static const routeName = "/moreScreen";
   @override
   Widget build(BuildContext context) {
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
+    var screenWidth = queryData.size.width / 100;
     return Scaffold(
-      body: Stack(
-        children: [
-          SafeArea(
-            child: Container(
-              height: Helper.getScreenHeight(context),
-              width: Helper.getScreenWidth(context),
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: SingleChildScrollView(
-                child: Column(children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "More",
-                        style: Helper.getTheme(context).headline5,
-                      ),
-                      Image.asset(
-                        Helper.getAssetName("cart.png", "virtual"),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  MoreCard(
-                    image: Image.asset(
-                      Helper.getAssetName("income.png", "virtual"),
-                    ),
-                    name: "Payment Details",
-                    handler: () {
-                      Navigator.of(context).pushNamed(PaymentScreen.routeName);
-                    },
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  MoreCard(
-                    image: Image.asset(
-                      Helper.getAssetName("shopping_bag.png", "virtual"),
-                    ),
-                    name: "My Orders",
-                    handler: () {
-                      Navigator.of(context).pushNamed(MyOrderScreen.routeName);
-                    },
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  MoreCard(
-                    image: Image.asset(
-                      Helper.getAssetName("noti.png", "virtual"),
-                    ),
-                    name: "Notifications",
-                    isNoti: true,
-                    handler: () {
-                      Navigator.of(context)
-                          .pushNamed(NotificationScreen.routeName);
-                    },
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  MoreCard(
-                    image: Image.asset(
-                      Helper.getAssetName("mail.png", "virtual"),
-                    ),
-                    name: "Inbox",
-                    handler: () {
-                      Navigator.of(context).pushNamed(InboxScreen.routeName);
-                    },
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  MoreCard(
-                    image: Image.asset(
-                      Helper.getAssetName("info.png", "virtual"),
-                    ),
-                    name: "About Us",
-                    handler: () {
-                      Navigator.of(context).pushNamed(AboutScreen.routeName);
-                    },
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                ]),
-              ),
-            ),
+      appBar: AppBar(
+        title: Text(
+          "More",
+          style: TextStyle(
+            color: AppColor.secondary,
+            fontSize: screenWidth * 6,
+            fontWeight: FontWeight.bold,
           ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            child: CustomNavBar(
-              more: true,
-            ),
-          )
+        ),
+        toolbarHeight: screenWidth * 20,
+        elevation: 1,
+        backgroundColor: AppColor.bright,
+      ),
+      backgroundColor: AppColor.bright,
+      body: ListView(
+        children: [
+          moreTile(
+            screenWidth,
+            context,
+            title: "Payment Details",
+            icon: Icons.payments_outlined,
+            color: Colors.green,
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => PaymentScreen(),
+                ),
+              );
+            },
+          ),
+          moreTile(screenWidth, context,
+              title: "My Orders",
+              icon: Icons.shopping_bag_outlined,
+              color: Colors.orange, onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => MyOrderScreen(),
+              ),
+            );
+          }),
+          moreTile(
+            screenWidth,
+            context,
+            title: "Notifications",
+            icon: Icons.notifications_outlined,
+            color: Colors.red,
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => NotificationScreen(),
+                ),
+              );
+            },
+          ),
+          moreTile(
+            screenWidth,
+            context,
+            title: "Inbox",
+            icon: Icons.mail_outline,
+            color: Colors.blue,
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => InboxScreen(),
+                ),
+              );
+            },
+          ),
+          moreTile(
+            screenWidth,
+            context,
+            title: "About Us",
+            icon: Icons.info_outline,
+            color: Colors.purple,
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => AboutScreen(),
+                ),
+              );
+            },
+          ),
+          moreTile(
+            screenWidth,
+            context,
+            title: "FAQs",
+            icon: Icons.question_answer_outlined,
+            color: Colors.pink,
+          ),
+          moreTile(
+            screenWidth,
+            context,
+            title: "Contact Us",
+            icon: Icons.phone_outlined,
+            color: Colors.yellow,
+          ),
+          moreTile(
+            screenWidth,
+            context,
+            title: "Privacy Policy",
+            icon: Icons.privacy_tip_outlined,
+            color: Colors.teal,
+          ),
+          moreTile(
+            screenWidth,
+            context,
+            title: "Terms & Conditions",
+            icon: Icons.description_outlined,
+            color: Colors.brown,
+          ),
+          moreTile(
+            screenWidth,
+            context,
+            title: "Logout",
+            icon: Icons.logout_outlined,
+            color: Colors.grey,
+            onTap: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => LandingScreen(),
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
   }
-}
 
-class MoreCard extends StatelessWidget {
-  const MoreCard({
-    Key key,
-    String name,
-    Image image,
-    bool isNoti = false,
-    Function handler,
-  })  : _name = name,
-        _image = image,
-        _isNoti = isNoti,
-        _handler = handler,
-        super(key: key);
-
-  final String _name;
-  final Image _image;
-  final bool _isNoti;
-  final Function _handler;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _handler,
-      child: Container(
-        height: 70,
-        width: double.infinity,
-        child: Stack(
-          children: [
-            Container(
-              height: double.infinity,
-              width: double.infinity,
-              margin: const EdgeInsets.only(
-                right: 20,
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              decoration: ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                color: AppColor.bright,
-              ),
-              child: Row(
-                children: [
-                  Container(
-                      width: 50,
-                      height: 50,
-                      decoration: ShapeDecoration(
-                        shape: CircleBorder(),
-                        color: AppColor.placeholder,
-                      ),
-                      child: _image),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    _name,
-                    style: TextStyle(
-                      color: AppColor.primary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                height: 30,
-                width: 30,
-                decoration: ShapeDecoration(
-                  shape: CircleBorder(),
-                  color: AppColor.bright,
-                ),
-                child: Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: AppColor.secondary,
-                  size: 17,
-                ),
-              ),
-            ),
-            if (_isNoti)
-              Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  height: 20,
-                  width: 20,
-                  margin: const EdgeInsets.only(
-                    right: 50,
-                  ),
-                  decoration: ShapeDecoration(
-                    shape: CircleBorder(),
-                    color: Colors.red,
-                  ),
-                  child: Center(
-                    child: Text(
-                      "15",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-              )
-          ],
+  Padding moreTile(double screenWidth, BuildContext context,
+      {String title, IconData icon, Function onTap, Color color}) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: screenWidth * 1),
+      child: ListTile(
+        leading: CircleAvatar(
+          radius: screenWidth * 6,
+          backgroundColor: color,
+          child: Icon(
+            icon,
+            color: AppColor.bright,
+            size: screenWidth * 6,
+          ),
         ),
+        title: Text(
+          title,
+          style: TextStyle(fontSize: screenWidth * 4, color: AppColor.dark),
+        ),
+        onTap: () {
+          if (onTap != null) {
+            onTap();
+          }
+        },
       ),
     );
   }

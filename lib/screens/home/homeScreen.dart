@@ -2,291 +2,328 @@ import 'package:flutter/material.dart';
 
 import '../../const/colors.dart';
 import '../../utils/helper.dart';
-import '../../widgets/customNavBar.dart';
-import 'individualItem.dart';
-import '../../widgets/searchBar.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const routeName = "/homeScreen";
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool showSearch = false;
+
   @override
   Widget build(BuildContext context) {
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
+    var screenWidth = queryData.size.width / 100;
     return Scaffold(
-      body: Stack(
-        children: [
-          SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      appBar: AppBar(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Hamza Imran",
+                style: TextStyle(
+                  color: AppColor.dark,
+                  fontSize: 16,
+                )),
+            Text(
+              "Ghazali Hostels",
+              style: TextStyle(
+                color: AppColor.dark,
+                fontSize: 12,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+          ],
+        ),
+        toolbarHeight: screenWidth * 20,
+        // profile image on leading
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CircleAvatar(
+            radius: 20,
+            backgroundImage: AssetImage(
+              Helper.getAssetName("user.jpg", "real"),
+            ),
+          ),
+        ),
+        // text on trailing
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                if(showSearch) {
+                  showSearch = false;
+                }
+                else{
+                  showSearch=true;
+                }
+              });
+            },
+            icon: Icon(
+              showSearch?Icons.close:Icons.search,
+              color: AppColor.primary,
+            ),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.shopping_cart_outlined,
+              color: AppColor.primary,
+            ),
+          ),
+        ],
+        elevation: 1,
+        backgroundColor: AppColor.bright,
+      ),
+      backgroundColor: AppColor.bright,
+
+      /// Body
+      body: Padding(
+        padding: EdgeInsets.all(screenWidth * 2),
+        child: Column(
+          children: [
+            showSearch?Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 5,vertical: screenWidth * 2),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 5),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(color: AppColor.primary)),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: "Search for food",
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                    Icon(Icons.search),
+                  ],
+                ),
+              ),
+            ):SizedBox(height: 0,),
+            Expanded(
+              child: ListView(
                 children: [
-                  SizedBox(
-                    height: 20,
-                  ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Good morning Akila!",
-                          style: Helper.getTheme(context).headline5,
-                        ),
-                        Image.asset(Helper.getAssetName("cart.png", "virtual"))
-                      ],
+                    padding: EdgeInsets.all(screenWidth * 2),
+                    child: Text(
+                      'Quick Search',
+                      style: TextStyle(
+                          fontSize: screenWidth * 4.5,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                   SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                    ),
-                    child: Text("Deilivering to"),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: SizedBox(
-                        width: 250,
-                        child: DropdownButton(
-                          value: "current location",
-                          items: [
-                            DropdownMenuItem(
-                              child: Text("Current Location"),
-                              value: "current location",
-                            ),
-                          ],
-                          icon: Image.asset(
-                            Helper.getAssetName(
-                                "dropdown_filled.png", "virtual"),
-                          ),
-                          style: Helper.getTheme(context).headline4,
-                          onChanged: (_) {},
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  SearchBar(
-                    title: "Search Food",
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                    ),
-                    child: SingleChildScrollView(
+                    height: screenWidth * 25,
+                    child: ListView(
                       scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          CategoryCard(
-                            image: Image.asset(
-                              Helper.getAssetName("hamburger2.jpg", "real"),
-                              fit: BoxFit.cover,
-                            ),
-                            name: "Offers",
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          CategoryCard(
-                            image: Image.asset(
-                              Helper.getAssetName("rice2.jpg", "real"),
-                              fit: BoxFit.cover,
-                            ),
-                            name: "Sri Lankan",
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          CategoryCard(
-                            image: Image.asset(
-                              Helper.getAssetName("fruit.jpg", "real"),
-                              fit: BoxFit.cover,
-                            ),
-                            name: "Italian",
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          CategoryCard(
-                            image: Image.asset(
-                              Helper.getAssetName("rice.jpg", "real"),
-                              fit: BoxFit.cover,
-                            ),
-                            name: "Indian",
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Popular Restaurants",
-                          style: Helper.getTheme(context).headline5,
+                        CategoryCard(
+                          image: Image.asset(
+                            Helper.getAssetName("pizza.png", "categories"),
+                            fit: BoxFit.cover,
+                          ),
+                          name: "Pizza",
                         ),
-                        TextButton(onPressed: () {}, child: Text("View all"))
+                        CategoryCard(
+                          image: Image.asset(
+                            Helper.getAssetName("burger.png", "categories"),
+                            fit: BoxFit.cover,
+                          ),
+                          name: "Burger",
+                        ),
+                        CategoryCard(
+                          image: Image.asset(
+                            Helper.getAssetName("coffee.png", "categories"),
+                            fit: BoxFit.cover,
+                          ),
+                          name: "Coffee",
+                        ),
+                        CategoryCard(
+                          image: Image.asset(
+                            Helper.getAssetName("dessert.png", "categories"),
+                            fit: BoxFit.cover,
+                          ),
+                          name: "Dessert",
+                        ),
+                        CategoryCard(
+                          image: Image.asset(
+                            Helper.getAssetName("breakfast.png", "categories"),
+                            fit: BoxFit.cover,
+                          ),
+                          name: "Breakfast",
+                        ),
+                        CategoryCard(
+                          image: Image.asset(
+                            Helper.getAssetName("bakery.png", "categories"),
+                            fit: BoxFit.cover,
+                          ),
+                          name: "Bakery",
+                        ),
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  RestaurantCard(
-                    image: Image.asset(
-                      Helper.getAssetName("pizza2.jpg", "real"),
-                      fit: BoxFit.cover,
-                    ),
-                    name: "Minute by tuk tuk",
-                  ),
-                  RestaurantCard(
-                    image: Image.asset(
-                      Helper.getAssetName("breakfast.jpg", "real"),
-                      fit: BoxFit.cover,
-                    ),
-                    name: "Cafe de Noir",
-                  ),
-                  RestaurantCard(
-                    image: Image.asset(
-                      Helper.getAssetName("bakery.jpg", "real"),
-                      fit: BoxFit.cover,
-                    ),
-                    name: "Bakes by Tella",
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
+                  // popular restaurants
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    padding: EdgeInsets.all(screenWidth * 2),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Most Popular",
-                          style: Helper.getTheme(context).headline5,
+                          "Restaurants Near You",
+                          style: TextStyle(
+                              fontSize: screenWidth * 4.5,
+                              fontWeight: FontWeight.bold),
                         ),
                         TextButton(
                           onPressed: () {},
-                          child: Text("View all"),
+                          child: Text(
+                            "View all",
+                            style: TextStyle(fontSize: screenWidth * 3.5),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  RestaurantCard(
+                    name: 'Some Restaurant',
+                    image: Image.asset(
+                      Helper.getAssetName("pizza4.jpg", "real"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  RestaurantCard(
+                    name: 'Some Restaurant',
+                    image: Image.asset(
+                      Helper.getAssetName("pizza4.jpg", "real"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  RestaurantCard(
+                    name: 'Some Restaurant',
+                    image: Image.asset(
+                      Helper.getAssetName("pizza4.jpg", "real"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+
+                  Padding(
+                    padding: EdgeInsets.all(screenWidth * 2),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Most Popular Deals",
+                          style: TextStyle(
+                              fontSize: screenWidth * 4.5,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            "View all",
+                            style: TextStyle(fontSize: screenWidth * 3.5),
+                          ),
                         ),
                       ],
                     ),
                   ),
                   SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    height: 250,
-                    width: double.infinity,
-                    padding: const EdgeInsets.only(left: 20),
-                    child: SingleChildScrollView(
+                    height: screenWidth * 65,
+                    child: ListView(
                       scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          MostPopularCard(
-                            image: Image.asset(
-                              Helper.getAssetName("pizza4.jpg", "real"),
-                              fit: BoxFit.cover,
-                            ),
-                            name: "Cafe De Bambaa",
+                      children: [
+                        MostPopularCard(
+                          name: 'Some Deal',
+                          image: Image.asset(
+                            Helper.getAssetName("pizza4.jpg", "real"),
+                            fit: BoxFit.cover,
                           ),
-                          SizedBox(
-                            width: 30,
+                        ),
+                        MostPopularCard(
+                          name: 'Some Deal',
+                          image: Image.asset(
+                            Helper.getAssetName("pizza4.jpg", "real"),
+                            fit: BoxFit.cover,
                           ),
-                          MostPopularCard(
-                            name: "Burger by Bella",
-                            image: Image.asset(
-                              Helper.getAssetName("dessert3.jpg", "real"),
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                        ],
-                      ),
+                        ),
+                        MostPopularCard(
+                          name: 'Some Deal',
+                          image: Image.asset(
+                            Helper.getAssetName("pizza4.jpg", "real"),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        MostPopularCard(
+                          name: 'Some Deal',
+                          image: Image.asset(
+                            Helper.getAssetName("pizza4.jpg", "real"),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        MostPopularCard(
+                          name: 'Some Deal',
+                          image: Image.asset(
+                            Helper.getAssetName("pizza4.jpg", "real"),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.all(screenWidth * 2),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           "Recent Items",
-                          style: Helper.getTheme(context).headline5,
+                          style: TextStyle(
+                              fontSize: screenWidth * 4.5,
+                              fontWeight: FontWeight.bold),
                         ),
                         TextButton(
                           onPressed: () {},
-                          child: Text("View all"),
+                          child: Text(
+                            "View all",
+                            style: TextStyle(fontSize: screenWidth * 3.5),
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
+                  RecentItemCard(
+                    name: 'Recent Item',
+                    image: Image.asset(
+                      Helper.getAssetName("pizza4.jpg", "real"),
+                      fit: BoxFit.cover,
                     ),
-                    child: Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context)
-                                .pushNamed(IndividualItem.routeName);
-                          },
-                          child: RecentItemCard(
-                            image: Image.asset(
-                              Helper.getAssetName("pizza3.jpg", "real"),
-                              fit: BoxFit.cover,
-                            ),
-                            name: "Mulberry Pizza by Josh",
-                          ),
-                        ),
-                        RecentItemCard(
-                            image: Image.asset(
-                              Helper.getAssetName("coffee.jpg", "real"),
-                              fit: BoxFit.cover,
-                            ),
-                            name: "Barita"),
-                        RecentItemCard(
-                            image: Image.asset(
-                              Helper.getAssetName("pizza.jpg", "real"),
-                              fit: BoxFit.cover,
-                            ),
-                            name: "Pizza Rush Hour"),
-                      ],
+                  ),
+                  RecentItemCard(
+                    name: 'Recent Item',
+                    image: Image.asset(
+                      Helper.getAssetName("pizza4.jpg", "real"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  RecentItemCard(
+                    name: 'Recent Item',
+                    image: Image.asset(
+                      Helper.getAssetName("pizza4.jpg", "real"),
+                      fit: BoxFit.cover,
                     ),
                   )
                 ],
               ),
             ),
-          ),
-          Positioned(
-              bottom: 0,
-              left: 0,
-              child: CustomNavBar(
-                home: true,
-              )),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -398,62 +435,68 @@ class MostPopularCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Container(
-            width: 300,
-            height: 200,
-            child: _image,
-          ),
-        ),
-        SizedBox(height: 10),
-        Text(
-          _name,
-          style: Helper.getTheme(context)
-              .headline4
-              .copyWith(color: AppColor.primary),
-        ),
-        Row(
-          children: [
-            Text("Cafe"),
-            SizedBox(
-              width: 5,
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
+    var screenWidth = queryData.size.width / 100;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 2),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Container(
+              width: screenWidth * 60,
+              height: screenWidth * 50,
+              child: _image,
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 5.0),
-              child: Text(
-                ".",
-                style: TextStyle(
-                  color: AppColor.main,
-                  fontWeight: FontWeight.w900,
+          ),
+          SizedBox(height: screenWidth * 2),
+          Text(
+            _name,
+            style: TextStyle(fontSize: screenWidth * 3.5),
+          ),
+          Row(
+            children: [
+              Text("Cafe", style: TextStyle(fontSize: screenWidth * 3.5)),
+              SizedBox(
+                width: screenWidth * 2,
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: screenWidth * 2),
+                child: Text(
+                  ".",
+                  style: TextStyle(
+                    color: AppColor.main,
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            Text("Western Food"),
-            SizedBox(
-              width: 20,
-            ),
-            Image.asset(
-              Helper.getAssetName("star_filled.png", "virtual"),
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            Text(
-              "4.9",
-              style: TextStyle(
-                color: AppColor.main,
+              SizedBox(
+                width: screenWidth * 2,
               ),
-            )
-          ],
-        )
-      ],
+              Text(
+                "Western Food",
+                style: TextStyle(fontSize: screenWidth * 3.5),
+              ),
+              SizedBox(
+                width: screenWidth * 2,
+              ),
+              Image.asset(
+                Helper.getAssetName("star_filled.png", "virtual"),
+              ),
+              SizedBox(
+                width: screenWidth * 2,
+              ),
+              Text(
+                "4.9",
+                style: TextStyle(
+                    color: AppColor.main, fontSize: screenWidth * 3.5),
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }
@@ -472,18 +515,21 @@ class RestaurantCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
+    var screenWidth = queryData.size.width / 100;
     return SizedBox(
-      height: 270,
       width: double.infinity,
       child: Column(
         children: [
-          SizedBox(height: 200, width: double.infinity, child: _image),
           SizedBox(
-            height: 10,
+              height: screenWidth * 50, width: double.infinity, child: _image),
+          SizedBox(
+            height: screenWidth * 2,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
+            padding: EdgeInsets.symmetric(
+              horizontal: screenWidth * 5,
             ),
             child: Column(
               children: [
@@ -496,7 +542,7 @@ class RestaurantCard extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                  height: 5,
+                  height: screenWidth * 2,
                 ),
                 Row(
                   children: [
@@ -504,41 +550,52 @@ class RestaurantCard extends StatelessWidget {
                       Helper.getAssetName("star_filled.png", "virtual"),
                     ),
                     SizedBox(
-                      width: 5,
+                      width: screenWidth * 2,
                     ),
                     Text(
                       "4.9",
                       style: TextStyle(
-                        color: AppColor.main,
-                      ),
+                          color: AppColor.main, fontSize: screenWidth * 3.5),
                     ),
                     SizedBox(
-                      width: 5,
+                      width: screenWidth * 2,
                     ),
-                    Text("(124 ratings)"),
-                    SizedBox(
-                      width: 5,
+                    Text(
+                      "(124 ratings)",
+                      style: TextStyle(fontSize: screenWidth * 3.5),
                     ),
-                    Text("Cafe"),
                     SizedBox(
-                      width: 5,
+                      width: screenWidth * 2,
+                    ),
+                    Text(
+                      "Cafe",
+                      style: TextStyle(fontSize: screenWidth * 3.5),
+                    ),
+                    SizedBox(
+                      width: screenWidth * 2,
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 5.0),
+                      padding: EdgeInsets.only(bottom: screenWidth * 2),
                       child: Text(
                         ".",
                         style: TextStyle(
-                          color: AppColor.main,
-                          fontWeight: FontWeight.w900,
-                        ),
+                            color: AppColor.main,
+                            fontWeight: FontWeight.w900,
+                            fontSize: screenWidth * 3.5),
                       ),
                     ),
                     SizedBox(
-                      width: 5,
+                      width: screenWidth * 2,
                     ),
-                    Text("Western Food"),
+                    Text(
+                      "Western Food",
+                      style: TextStyle(fontSize: screenWidth * 3.5),
+                    ),
                   ],
                 ),
+                SizedBox(
+                  height: screenWidth * 2,
+                )
               ],
             ),
           )
@@ -562,26 +619,37 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Container(
-            width: 100,
-            height: 100,
-            child: _image,
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
+    var screenWidth = queryData.size.width / 100;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 2),
+      child: SizedBox(
+        width: screenWidth * 25,
+        child: Card(
+          elevation: 5,
+          child: Column(
+            children: [
+              // Padding(
+              //   padding: EdgeInsets.all(screenWidth * 2),
+              //   child: ClipRRect(
+              //     borderRadius: BorderRadius.circular(10),
+              //     child: Container(
+              //       width: screenWidth * 20,
+              //       height: screenWidth * 20,
+              //       child: _image,
+              //     ),
+              //   ),
+              // ),
+              Padding(padding: EdgeInsets.symmetric(horizontal :screenWidth * 2), child: _image),
+              Text(
+                _name,
+               style: TextStyle(fontSize: screenWidth * 3),
+              ),
+            ],
           ),
         ),
-        SizedBox(
-          height: 5,
-        ),
-        Text(
-          _name,
-          style: Helper.getTheme(context)
-              .headline4
-              .copyWith(color: AppColor.primary, fontSize: 16),
-        ),
-      ],
+      ),
     );
   }
 }

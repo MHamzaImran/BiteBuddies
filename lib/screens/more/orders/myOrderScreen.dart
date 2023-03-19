@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:bite_buddies/const/colors.dart';
 import 'package:bite_buddies/screens/more/checkoutScreen.dart';
 import 'package:bite_buddies/utils/helper.dart';
-import 'package:bite_buddies/widgets/customNavBar.dart';
 
 class MyOrderScreen extends StatelessWidget {
   static const routeName = "/myOrderScreen";
@@ -272,8 +271,11 @@ class MyOrderScreen extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context)
-                                .pushNamed(CheckoutScreen.routeName);
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => CheckoutScreen(),
+                              ),
+                            );
                           },
                           child: Text("Checkout"),
                         ),
@@ -283,11 +285,6 @@ class MyOrderScreen extends StatelessWidget {
                 )
               ],
             ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            child: CustomNavBar(),
           ),
         ],
       ),

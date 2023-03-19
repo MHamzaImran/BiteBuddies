@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:bite_buddies/const/colors.dart';
-import 'package:bite_buddies/screens/home/homeScreen.dart';
 import 'package:bite_buddies/utils/helper.dart';
+
+import '../navbar/bottom_navbar.dart';
 
 class IntroScreen extends StatefulWidget {
   static const routeName = "/introScreen";
@@ -112,7 +113,7 @@ class _IntroScreenState extends State<IntroScreen> {
                   child: ElevatedButton(
                       onPressed: () {
                         Navigator.of(context)
-                            .pushReplacementNamed(HomeScreen.routeName);
+                            .pushReplacementNamed(BottomNavigation.routeName);
                       },
                       child: Text("Next")),
                 ),

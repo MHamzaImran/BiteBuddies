@@ -3,7 +3,6 @@ import 'package:bite_buddies/const/colors.dart';
 import 'package:bite_buddies/screens/more/changeAddressScreen.dart';
 import 'package:bite_buddies/screens/home/homeScreen.dart';
 import 'package:bite_buddies/utils/helper.dart';
-import 'package:bite_buddies/widgets/customNavBar.dart';
 import 'package:bite_buddies/widgets/customTextInput.dart';
 
 class CheckoutScreen extends StatelessWidget {
@@ -558,11 +557,6 @@ class CheckoutScreen extends StatelessWidget {
                 )
               ],
             ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            child: CustomNavBar(),
           ),
         ],
       ),

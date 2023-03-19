@@ -1,169 +1,202 @@
 import 'package:flutter/material.dart';
 import 'package:bite_buddies/const/colors.dart';
-import 'package:bite_buddies/utils/helper.dart';
-import 'package:bite_buddies/widgets/customNavBar.dart';
-import 'package:bite_buddies/widgets/customTextInput.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   static const routeName = "/profileScreen";
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  bool _obscureText = true;
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController numberController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
+    var screenWidth = queryData.size.width / 100;
     return Scaffold(
-      body: Stack(
-        children: [
-          SafeArea(
-            child: Container(
-              height: Helper.getScreenHeight(context),
-              width: Helper.getScreenWidth(context),
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Profile",
-                            style: Helper.getTheme(context).headline5,
-                          ),
-                          Image.asset(
-                            Helper.getAssetName("cart.png", "virtual"),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      ClipOval(
-                        child: Stack(
-                          children: [
-                            Container(
-                              height: 80,
-                              width: 80,
-                              child: Image.asset(
-                                Helper.getAssetName(
-                                  "user.jpg",
-                                  "real",
-                                ),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              child: Container(
-                                height: 20,
-                                width: 80,
-                                color: Colors.black.withOpacity(0.3),
-                                child: Image.asset(Helper.getAssetName(
-                                    "camera.png", "virtual")),
-                              ),
-                            )
-                          ],
+      appBar: AppBar(
+        title: Text(
+          "Profile",
+          style: TextStyle(
+            color: AppColor.secondary,
+            fontSize: screenWidth * 6,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        toolbarHeight: screenWidth * 20,
+        elevation: 1,
+        backgroundColor: AppColor.bright,
+      ),
+      backgroundColor: AppColor.bright,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: ListView(
+          children: [
+            SizedBox(
+              height: screenWidth * 1,
+            ),
+            Center(
+              child: Stack(
+                children: [
+                  CircleAvatar(
+                    radius: screenWidth * 16,
+                    backgroundColor: AppColor.placeholder,
+                    child: Container(
+                      width: screenWidth * 30,
+                      height: screenWidth * 30,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage('assets/images/real/fruit.jpg'),
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            Helper.getAssetName("edit_filled.png", "virtual"),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            "Edit Profile",
-                            style: TextStyle(color: AppColor.main),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Hi there Emilia!",
-                        style: Helper.getTheme(context).headline4.copyWith(
-                              color: AppColor.primary,
-                            ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text("Sign Out"),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      CustomFormImput(
-                        label: "Name",
-                        value: "Emilia Clarke",
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      CustomFormImput(
-                        label: "Email",
-                        value: "emiliaclarke@email.com",
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      CustomFormImput(
-                        label: "Mobile No",
-                        value: "emiliaclarke@email.com",
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      CustomFormImput(
-                        label: "Address",
-                        value: "No 23, 6th Lane, Colombo 03",
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      CustomFormImput(
-                        label: "Password",
-                        value: "Emilia Clarke",
-                        isPassword: true,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      CustomFormImput(
-                        label: "Confirm Password",
-                        value: "Emilia Clarke",
-                        isPassword: true,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        height: 50,
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text("Save"),
-                        ),
-                      )
-                    ],
+                    ),
                   ),
+                  Positioned(
+                    right: screenWidth * 2,
+                    bottom: 0,
+                    child: CircleAvatar(
+                      radius: screenWidth * 4,
+                      backgroundColor: AppColor.placeholder,
+                      child: Icon(
+                        Icons.edit,
+                        color: AppColor.bright,
+                        size: screenWidth * 4,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: screenWidth * 10,
+            ),
+            TextFormField(
+                controller: nameController,
+                style: TextStyle(color: AppColor.dark),
+                decoration: textFieldDecoration(screenWidth,
+                    hintText: 'Enter Full Name', labelText: 'Name')),
+            SizedBox(
+              height: screenWidth * 5,
+            ),
+            TextFormField(
+                controller: emailController,
+                style: TextStyle(color: AppColor.dark),
+                decoration: textFieldDecoration(screenWidth,
+                    hintText: 'Email Address', labelText: 'Email')),
+            SizedBox(
+              height: screenWidth * 5,
+            ),
+            TextFormField(
+                controller: numberController,
+                style: TextStyle(color: AppColor.dark),
+                decoration: textFieldDecoration(screenWidth,
+                    hintText: 'Mobile Number', labelText: 'Number')),
+            SizedBox(
+              height: screenWidth * 5,
+            ),
+            TextFormField(
+                controller: addressController,
+                style: TextStyle(color: AppColor.dark),
+                decoration: textFieldDecoration(screenWidth,
+                    hintText: 'Enter Address', labelText: 'Address')),
+            SizedBox(
+              height: screenWidth * 5,
+            ),
+            TextFormField(
+                controller: passwordController,
+                style: TextStyle(color: AppColor.dark),
+                obscureText: _obscureText,
+                decoration: textFieldDecoration(screenWidth,
+                    hintText: 'Enter Password', labelText: 'Password')),
+            SizedBox(
+              height: screenWidth * 5,
+            ),
+            TextFormField(
+                controller: confirmPasswordController,
+                style: TextStyle(color: AppColor.dark),
+                decoration: textFieldDecoration(screenWidth,
+                    hintText: 'Confirm Password', labelText: 'Confirm')),
+            SizedBox(
+              height: screenWidth * 5,
+            ),
+            SizedBox(
+              height: screenWidth * 12,
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    AppColor.main,
+                  ),
+                ),
+                onPressed: () {},
+                child: Text(
+                  "Update",
+                  style: TextStyle(
+                      fontSize: screenWidth * 4, color: AppColor.bright),
                 ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            child: CustomNavBar(
-              profile: true,
+            SizedBox(
+              height: screenWidth * 5,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
+  }
+
+  InputDecoration textFieldDecoration(double screenWidth,
+      {String hintText, String labelText}) {
+    return InputDecoration(
+        hintText: hintText,
+        hintStyle: TextStyle(color: AppColor.primary),
+        labelText: labelText,
+        labelStyle: TextStyle(color: AppColor.primary),
+        focusColor: AppColor.dark,
+        contentPadding: EdgeInsets.symmetric(
+            horizontal: screenWidth * 5, vertical: screenWidth * 4),
+        floatingLabelStyle:
+            TextStyle(color: AppColor.dark, fontSize: screenWidth * 4),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(width: 1, color: AppColor.dark), //<-- SEE HERE
+          borderRadius: BorderRadius.circular(50.0),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(width: 1, color: AppColor.dark), //<-- SEE HERE
+          borderRadius: BorderRadius.circular(50.0),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(width: 1, color: AppColor.dark), //<-- SEE HERE
+          borderRadius: BorderRadius.circular(50.0),
+        ),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(width: 1, color: AppColor.dark), //<-- SEE HERE
+          borderRadius: BorderRadius.circular(50.0),
+        ),
+        suffixIcon: labelText == "Password" || labelText == "Confirm"
+            ? InkWell(
+                onTap: () {
+                  setState(() {
+                    _obscureText = !_obscureText;
+                  });
+                },
+                child: Icon(
+                    _obscureText ? Icons.visibility : Icons.visibility_off,
+                    color: AppColor.main),
+              )
+            : null);
   }
 }
 
@@ -196,10 +229,6 @@ class CustomFormImput extends StatelessWidget {
         decoration: InputDecoration(
           border: InputBorder.none,
           labelText: _label,
-          contentPadding: const EdgeInsets.only(
-            top: 10,
-            bottom: 10,
-          ),
         ),
         obscureText: _isPassword,
         initialValue: _value,

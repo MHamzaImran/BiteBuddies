@@ -1,10 +1,11 @@
+import 'package:bite_buddies/screens/navbar/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:bite_buddies/screens/more/changeAddressScreen.dart';
 
 import 'screens/authentication/spashScreen.dart';
 import 'screens/authentication/landingScreen.dart';
-import 'screens/authentication/loginScreen.dart';
-import 'screens/authentication/signUpScreen.dart';
+import 'screens/authentication/login/loginScreen.dart';
+import 'screens/authentication/register/registerScreen.dart';
 import 'screens/authentication/forgetPasswordScreen.dart';
 import 'screens/authentication/sentOTPScreen.dart';
 import 'screens/authentication/resetPasswordScreen.dart';
@@ -16,11 +17,11 @@ import 'screens/offers/offerScreen.dart';
 import 'screens/profile/profileScreen.dart';
 import 'screens/menu/dessertScreen.dart';
 import 'screens/home/individualItem.dart';
-import 'screens/more/paymentScreen.dart';
-import 'screens/more/notificationScreen.dart';
-import 'screens/more/aboutScreen.dart';
-import 'screens/more/inboxScreen.dart';
-import 'screens/more/myOrderScreen.dart';
+import 'screens/more/payment/paymentScreen.dart';
+import 'screens/more/notifications/notificationScreen.dart';
+import 'screens/more/about/aboutScreen.dart';
+import 'screens/more/inbox/inboxScreen.dart';
+import 'screens/more/orders/myOrderScreen.dart';
 import 'screens/more/checkoutScreen.dart';
 import './const/colors.dart';
 
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         fontFamily: "Metropolis",
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.blue,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(
@@ -90,6 +91,7 @@ class MyApp extends StatelessWidget {
         SendOTPScreen.routeName: (context) => SendOTPScreen(),
         NewPwScreen.routeName: (context) => NewPwScreen(),
         IntroScreen.routeName: (context) => IntroScreen(),
+        BottomNavigation.routeName: (context) => BottomNavigation(),
         HomeScreen.routeName: (context) => HomeScreen(),
         MenuScreen.routeName: (context) => MenuScreen(),
         OfferScreen.routeName: (context) => OfferScreen(),

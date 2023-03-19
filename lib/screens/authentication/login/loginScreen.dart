@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:bite_buddies/screens/authentication/forgetPasswordScreen.dart';
 
-import '../../const/colors.dart';
-import 'signUpScreen.dart';
-import '../../utils/helper.dart';
+import '../../../const/colors.dart';
+import '../../navbar/bottom_navbar.dart';
+import '../register/registerScreen.dart';
+import '../../../utils/helper.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = "/loginScreen";
@@ -62,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Padding(
                 padding: EdgeInsets.only(
-                    left: screenWidth * 20, right: screenWidth * 20, top: screenWidth * 5),
+                    left: screenWidth * 30, right: screenWidth * 30, top: screenWidth * 0),
                 child: Image.asset(
                   Helper.getAssetName("logo.png", "virtual"),
                   fit: BoxFit.fitWidth,
@@ -71,12 +72,12 @@ class _LoginScreenState extends State<LoginScreen> {
               Center(
                 child: Text('Bite Buddies',
                     style: TextStyle(
-                      fontSize: screenWidth * 8,
+                      fontSize: screenWidth * 6,
                       fontWeight: FontWeight.bold,
                     )),
               ),
               SizedBox(
-                height: screenWidth * 20,
+                height: screenWidth * 10,
               ),
               TextFormField(
                   key: field1Key,
@@ -108,26 +109,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
-                  } else if (value.length < 6) {
-                    return 'Password must be at least 6 characters';
-                  } else if (value.length > 20) {
-                    return 'Password must be less than 20 characters';
                   }
-                  // password should contain at least one uppercase letter
-                  if (!RegExp(r'[A-Z]').hasMatch(value)) {
-                    return 'Password must contain at least one uppercase letter';
-                  }
-                  // password should contain at least one lowercase letter
-                  if (!RegExp(r'[a-z]').hasMatch(value)) {
-                    return 'Password must contain at least one lowercase letter';
-                  }
-                  // password should contain at least one digit
-                  if (!RegExp(r'[0-9]').hasMatch(value)) {
-                    return 'Password must contain at least one digit';
-                  }
-                  // password should contain at least one special character
-                  if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
-                    return 'Password must contain at least one special character';
+                  // password validation
+                  else if (value.length < 8) {
+                    return 'Password must be at least 8 characters';
                   }
 
                   return null;
@@ -142,15 +127,26 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: screenWidth * 5,
               ),
               SizedBox(
-                height: 50,
+                height: screenWidth * 10,
                 width: double.infinity,
+                
                 child: ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
                       AppColor.main,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    // validate all fields
+                    if (field1Key.currentState.validate() &&
+                        field2Key.currentState.validate()) {
+                      // if all fields are valid, proceed to login
+                      print('Login Successful');
+                      Navigator.of(context)
+                          .pushNamed(BottomNavigation.routeName);
+                    }
+                    
+                  },
                   child: Text(
                     "Login",
                     style: TextStyle(
@@ -162,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                       onPressed: () => Navigator.of(context)
-                          .pushReplacementNamed(ForgetPwScreen.routeName),
+                          .pushNamed(ForgetPwScreen.routeName),
                       child: Text(
                         "Forgot Password?",
                         style: TextStyle(fontSize: screenWidth * 3.5),
@@ -269,7 +265,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: ()=>Navigator.of(context)
                           .pushReplacementNamed(SignUpScreen.routeName),
                       child: Text(
-                        "Sign Up",
+                        "Register",
                         style: TextStyle(
                             fontSize: screenWidth * 3.5, color: AppColor.main),
                       )),
@@ -286,14 +282,16 @@ class _LoginScreenState extends State<LoginScreen> {
       {String hintText, String labelText}) {
     return InputDecoration(
         hintText: hintText,
-        hintStyle: TextStyle(color: AppColor.primary),
+        hintStyle:
+        TextStyle(color: AppColor.primary, fontSize: screenWidth * 3.5),
         labelText: labelText,
-        labelStyle: TextStyle(color: AppColor.primary),
+        labelStyle:
+        TextStyle(color: AppColor.primary, fontSize: screenWidth * 3.5),
         focusColor: AppColor.dark,
         contentPadding: EdgeInsets.symmetric(
-            horizontal: screenWidth * 5, vertical: screenWidth * 4),
+            horizontal: screenWidth * 5, vertical: screenWidth * 2),
         floatingLabelStyle:
-            TextStyle(color: AppColor.dark, fontSize: screenWidth * 4),
+        TextStyle(color: AppColor.dark, fontSize: screenWidth * 3.5),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(width: 1, color: AppColor.dark), //<-- SEE HERE
           borderRadius: BorderRadius.circular(50.0),
@@ -312,19 +310,19 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         suffixIcon: labelText == "Password"
             ? InkWell(
-                onTap: () {
-                  setState(() {
-                    if (_obscureText == true) {
-                      _obscureText = false;
-                    } else {
-                      _obscureText = true;
-                    }
-                  });
-                },
-                child: Icon(
-                    _obscureText ? Icons.visibility : Icons.visibility_off,
-                    color: AppColor.main),
-              )
+          onTap: () {
+            setState(() {
+              if (_obscureText == true) {
+                _obscureText = false;
+              } else {
+                _obscureText = true;
+              }
+            });
+          },
+          child: Icon(
+              _obscureText ? Icons.visibility : Icons.visibility_off,
+              color: AppColor.main,size: screenWidth * 5,),
+        )
             : null);
   }
 }
