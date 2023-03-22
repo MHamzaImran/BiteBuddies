@@ -14,7 +14,7 @@ class OfferScreen extends StatelessWidget {
         title:Text(
           "Latest Offers",
           style: TextStyle(
-            color: AppColor.secondary,
+            color: AppColor.disabled,
             fontSize: screenWidth * 6,
             fontWeight: FontWeight.bold,
           ),

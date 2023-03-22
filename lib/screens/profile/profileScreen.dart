@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:bite_buddies/const/colors.dart';
 
+import '../../widgets/custom_appbar.dart';
+
 class ProfileScreen extends StatefulWidget {
   static const routeName = "/profileScreen";
 
@@ -23,37 +25,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
     var screenWidth = queryData.size.width / 100;
+    var screenHeight = queryData.size.height / 100;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Profile",
-          style: TextStyle(
-            color: AppColor.secondary,
-            fontSize: screenWidth * 6,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        toolbarHeight: screenWidth * 20,
-        elevation: 1,
-        backgroundColor: AppColor.bright,
-      ),
+      appBar: customAppBar(context, title: 'Profile', backButton: false),
       backgroundColor: AppColor.bright,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: ListView(
           children: [
             SizedBox(
-              height: screenWidth * 1,
+              height: screenHeight * 0.5,
             ),
             Center(
               child: Stack(
                 children: [
                   CircleAvatar(
-                    radius: screenWidth * 16,
+                    radius: screenHeight * 8,
                     backgroundColor: AppColor.placeholder,
                     child: Container(
-                      width: screenWidth * 30,
-                      height: screenWidth * 30,
+                      width: screenHeight * 15,
+                      height: screenHeight * 15,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
@@ -64,15 +55,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   Positioned(
-                    right: screenWidth * 2,
+                    right: screenHeight * 2,
                     bottom: 0,
                     child: CircleAvatar(
-                      radius: screenWidth * 4,
+                      radius: screenHeight * 2,
                       backgroundColor: AppColor.placeholder,
                       child: Icon(
                         Icons.edit,
                         color: AppColor.bright,
-                        size: screenWidth * 4,
+                        size: screenHeight * 2,
                       ),
                     ),
                   ),

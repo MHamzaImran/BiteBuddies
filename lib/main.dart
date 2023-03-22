@@ -1,6 +1,7 @@
 import 'package:bite_buddies/screens/navbar/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:bite_buddies/screens/more/changeAddressScreen.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 import 'screens/authentication/spashScreen.dart';
 import 'screens/authentication/landingScreen.dart';
@@ -26,7 +27,7 @@ import 'screens/more/checkoutScreen.dart';
 import './const/colors.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(Phoenix(child: MyApp())); 
 }
 
 class MyApp extends StatelessWidget {
@@ -63,7 +64,7 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
           headline4: TextStyle(
-            color: AppColor.secondary,
+            color: AppColor.disabled,
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
@@ -77,7 +78,7 @@ class MyApp extends StatelessWidget {
             fontSize: 25,
           ),
           bodyText2: TextStyle(
-            color: AppColor.secondary,
+            color: AppColor.disabled,
           ),
         ),
       ),

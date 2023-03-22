@@ -25,6 +25,9 @@ dependencies:
     sdk: flutter
   clip_shadow: ^0.2.1
   custom_top_navigator: ^0.0.3
+  
+  # For restart_app. 
+  flutter_phoenix:
 
 
   # The following adds the Cupertino Icons font to your application.

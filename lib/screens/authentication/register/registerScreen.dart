@@ -404,19 +404,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
         floatingLabelStyle:
             TextStyle(color: AppColor.dark, fontSize: screenWidth * 3.5),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(width: 1, color: AppColor.dark), //<-- SEE HERE
+          borderSide: BorderSide(width: 1, color: AppColor.placeholder), //<-- SEE HERE
           borderRadius: BorderRadius.circular(50.0),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(width: 1, color: AppColor.dark), //<-- SEE HERE
+          borderSide: BorderSide(width: 1, color: AppColor.placeholder), //<-- SEE HERE
           borderRadius: BorderRadius.circular(50.0),
         ),
         disabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(width: 1, color: AppColor.dark), //<-- SEE HERE
+          borderSide: BorderSide(width: 1, color: AppColor.placeholder), //<-- SEE HERE
           borderRadius: BorderRadius.circular(50.0),
         ),
         border: OutlineInputBorder(
-          borderSide: BorderSide(width: 1, color: AppColor.dark), //<-- SEE HERE
+          borderSide: BorderSide(width: 1, color: AppColor.placeholder), //<-- SEE HERE
           borderRadius: BorderRadius.circular(50.0),
         ),
         suffixIcon: labelText == "Password"

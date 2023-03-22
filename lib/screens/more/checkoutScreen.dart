@@ -224,7 +224,7 @@ class CheckoutScreen extends StatelessWidget {
                                               onChanged: (_) {},
                                               thumbColor:
                                                   MaterialStateProperty.all(
-                                                AppColor.secondary,
+                                                AppColor.disabled,
                                               ),
                                             )
                                           ],

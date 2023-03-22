@@ -11,6 +11,7 @@ class LandingScreen extends StatelessWidget {
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
     var screenWidth = queryData.size.width / 100;
+    var screenHeight = queryData.size.height / 100;
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColor.bright,
@@ -20,45 +21,43 @@ class LandingScreen extends StatelessWidget {
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: EdgeInsets.all(screenWidth * 5),
+                      padding: EdgeInsets.symmetric(horizontal:screenHeight * 5),
                       child: SizedBox(
-                        height: screenWidth * 60,
+                        height: screenHeight * 30,
                         child: Image.asset(
                           Helper.getAssetName("logo.png", "virtual"),
                           fit: BoxFit.fill,
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: screenWidth * 0,
-                    ),
                     Text('Bite Buddies',
                         style: TextStyle(
-                          fontSize: screenWidth * 8,
+                          fontSize: screenHeight * 4,
                           fontWeight: FontWeight.bold,
                         )),
                     SizedBox(
-                      height: screenWidth * 20,
+                      height: screenHeight * 10,
                     ),
                     SizedBox(
                       width: double.infinity,
-                      height: 50,
+                      height: screenHeight * 6,
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.of(context)
                               .pushNamed(LoginScreen.routeName);
                         },
-                        child: Text("Login",style: TextStyle(fontSize: screenWidth * 4),),
+                        child: Text("Login",style: TextStyle(fontSize: screenHeight * 2),),
                       ),
                     ),
                     SizedBox(
-                      height: screenWidth * 5,
+                      height: screenHeight * 2,
                     ),
                     SizedBox(
                       width: double.infinity,
-                      height: 50,
+                      height: screenHeight * 6,
                       child: ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor:
@@ -76,7 +75,7 @@ class LandingScreen extends StatelessWidget {
                           Navigator.of(context)
                               .pushReplacementNamed(SignUpScreen.routeName);
                         },
-                        child: Text("Create an Account",style: TextStyle(fontSize: screenWidth * 4),),
+                        child: Text("Create an Account",style: TextStyle(fontSize: screenHeight * 2),),
                       ),
                     ),
                   ],

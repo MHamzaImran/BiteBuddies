@@ -22,7 +22,7 @@ class _DessertScreenState extends State<DessertScreen> {
         title: Text(
           "Desserts",
           style: TextStyle(
-            color: AppColor.secondary,
+            color: AppColor.disabled,
             fontSize: screenWidth * 6,
             fontWeight: FontWeight.bold,
           ),
@@ -34,7 +34,7 @@ class _DessertScreenState extends State<DessertScreen> {
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: AppColor.secondary,
+            color: AppColor.disabled,
           ),
           onPressed: () {
             Navigator.of(context).pop();
@@ -44,7 +44,7 @@ class _DessertScreenState extends State<DessertScreen> {
           IconButton(
             icon: Icon(
               showSearch?Icons.close:Icons.search,
-              color: AppColor.secondary,
+              color: AppColor.disabled,
             ),
             onPressed: () {
               setState(() {

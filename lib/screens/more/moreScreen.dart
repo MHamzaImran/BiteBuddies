@@ -1,33 +1,26 @@
-import 'package:bite_buddies/screens/authentication/landingScreen.dart';
 import 'package:bite_buddies/screens/more/payment/paymentScreen.dart';
+import 'package:bite_buddies/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:bite_buddies/const/colors.dart';
 import 'package:bite_buddies/screens/more/about/aboutScreen.dart';
 import 'package:bite_buddies/screens/more/inbox/inboxScreen.dart';
 import 'package:bite_buddies/screens/more/orders/myOrderScreen.dart';
 import 'package:bite_buddies/screens/more/notifications/notificationScreen.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 class MoreScreen extends StatelessWidget {
   static const routeName = "/moreScreen";
+  
+  
+  
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
     var screenWidth = queryData.size.width / 100;
+    
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "More",
-          style: TextStyle(
-            color: AppColor.secondary,
-            fontSize: screenWidth * 6,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        toolbarHeight: screenWidth * 20,
-        elevation: 1,
-        backgroundColor: AppColor.bright,
-      ),
+      appBar: customAppBar(context, title: 'More', backButton: false),
       backgroundColor: AppColor.bright,
       body: ListView(
         children: [
@@ -131,17 +124,16 @@ class MoreScreen extends StatelessWidget {
             title: "Logout",
             icon: Icons.logout_outlined,
             color: Colors.grey,
-            onTap: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => LandingScreen(),
-                ),
-              );
-            },
+            onTap: ()async{
+              // restart whole app
+              Phoenix.rebirth(context);
+             
+            }
           ),
         ],
       ),
     );
+    
   }
 
   Padding moreTile(double screenWidth, BuildContext context,

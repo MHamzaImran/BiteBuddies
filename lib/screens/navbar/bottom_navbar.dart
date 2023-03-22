@@ -30,12 +30,11 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    MediaQueryData queryData;
-    queryData = MediaQuery.of(context);
-    var screenWidth = queryData.size.width / 100;
+    // MediaQueryData queryData;
+    // queryData = MediaQuery.of(context);
+    // var screenWidth = queryData.size.width / 100;
     return SafeArea(
       child: Scaffold(
-        
         backgroundColor: AppColor.bright,
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: AppColor.bright,
@@ -90,7 +89,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           ],
           type: BottomNavigationBarType.fixed,
           selectedItemColor: AppColor.main,
-          unselectedItemColor: AppColor.secondary,
+          unselectedItemColor: AppColor.disabled,
           onTap: (index) {
             mainNavigatorKey.currentState?.maybePop();
             setState(() {

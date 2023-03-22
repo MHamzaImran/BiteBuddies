@@ -53,31 +53,33 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
-    var screenWidth = queryData.size.width / 100;
+    var screenHeight = queryData.size.width / 100;
     return Scaffold(
       backgroundColor: AppColor.bright,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(screenWidth * 5),
+          padding: EdgeInsets.all(screenHeight * 2),
           child: ListView(
             children: [
               Padding(
-                padding: EdgeInsets.only(
-                    left: screenWidth * 30, right: screenWidth * 30, top: screenWidth * 0),
-                child: Image.asset(
-                  Helper.getAssetName("logo.png", "virtual"),
-                  fit: BoxFit.fitWidth,
+                padding: EdgeInsets.symmetric(horizontal:screenHeight * 30),
+                child: SizedBox(
+                  height: screenHeight * 40,
+                  child: Image.asset(
+                    Helper.getAssetName("logo.png", "virtual"),
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
               Center(
                 child: Text('Bite Buddies',
                     style: TextStyle(
-                      fontSize: screenWidth * 6,
+                      fontSize: screenHeight * 6,
                       fontWeight: FontWeight.bold,
                     )),
               ),
               SizedBox(
-                height: screenWidth * 10,
+                height: screenHeight * 10,
               ),
               TextFormField(
                   key: field1Key,
@@ -97,10 +99,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   style: TextStyle(color: AppColor.dark),
-                  decoration: textFieldDecoration(screenWidth,
+                  decoration: textFieldDecoration(screenHeight,
                       hintText: 'Email Address', labelText: 'Email')),
               SizedBox(
-                height: screenWidth * 5,
+                height: screenHeight * 5,
               ),
               TextFormField(
                 key: field2Key,
@@ -120,16 +122,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 obscureText: _obscureText,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 style: TextStyle(color: AppColor.dark),
-                decoration: textFieldDecoration(screenWidth,
+                decoration: textFieldDecoration(screenHeight,
                     hintText: 'Enter Password', labelText: 'Password'),
               ),
               SizedBox(
-                height: screenWidth * 5,
+                height: screenHeight * 5,
               ),
               SizedBox(
-                height: screenWidth * 10,
+                height: screenHeight * 10,
                 width: double.infinity,
-                
                 child: ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
@@ -145,12 +146,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       Navigator.of(context)
                           .pushNamed(BottomNavigation.routeName);
                     }
-                    
                   },
                   child: Text(
                     "Login",
                     style: TextStyle(
-                        fontSize: screenWidth * 4, color: AppColor.bright),
+                        fontSize: screenHeight * 4, color: AppColor.bright),
                   ),
                 ),
               ),
@@ -161,7 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           .pushNamed(ForgetPwScreen.routeName),
                       child: Text(
                         "Forgot Password?",
-                        style: TextStyle(fontSize: screenWidth * 3.5),
+                        style: TextStyle(fontSize: screenHeight * 3.5),
                       ))),
               // Divider with or text
               Row(
@@ -173,11 +173,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 5),
+                    padding: EdgeInsets.symmetric(horizontal: screenHeight * 5),
                     child: Text(
                       "OR",
                       style: TextStyle(
-                        fontSize: screenWidth * 4,
+                        fontSize: screenHeight * 4,
                         color: AppColor.dark,
                       ),
                     ),
@@ -191,14 +191,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
               SizedBox(
-                height: screenWidth * 5,
+                height: screenHeight * 5,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SizedBox(
-                    width: screenWidth * 40,
-                    height: screenWidth * 10,
+                    width: screenHeight * 40,
+                    height: screenHeight * 10,
                     child: ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
@@ -226,8 +226,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: screenWidth * 10,
-                    width: screenWidth * 40,
+                    height: screenHeight * 10,
+                    width: screenHeight * 40,
                     child: ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
@@ -259,15 +259,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   Text(
                     "Don't have an account?",
                     style: TextStyle(
-                        fontSize: screenWidth * 3.5, color: AppColor.dark),
+                        fontSize: screenHeight * 3.5, color: AppColor.dark),
                   ),
                   TextButton(
-                      onPressed: ()=>Navigator.of(context)
+                      onPressed: () => Navigator.of(context)
                           .pushReplacementNamed(SignUpScreen.routeName),
                       child: Text(
                         "Register",
                         style: TextStyle(
-                            fontSize: screenWidth * 3.5, color: AppColor.main),
+                            fontSize: screenHeight * 3.5, color: AppColor.main),
                       )),
                 ],
               ),
@@ -283,46 +283,52 @@ class _LoginScreenState extends State<LoginScreen> {
     return InputDecoration(
         hintText: hintText,
         hintStyle:
-        TextStyle(color: AppColor.primary, fontSize: screenWidth * 3.5),
+            TextStyle(color: AppColor.primary, fontSize: screenWidth * 3.5),
         labelText: labelText,
         labelStyle:
-        TextStyle(color: AppColor.primary, fontSize: screenWidth * 3.5),
+            TextStyle(color: AppColor.primary, fontSize: screenWidth * 3.5),
         focusColor: AppColor.dark,
         contentPadding: EdgeInsets.symmetric(
             horizontal: screenWidth * 5, vertical: screenWidth * 2),
         floatingLabelStyle:
-        TextStyle(color: AppColor.dark, fontSize: screenWidth * 3.5),
+            TextStyle(color: AppColor.dark, fontSize: screenWidth * 3.5),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(width: 1, color: AppColor.dark), //<-- SEE HERE
+          borderSide:
+              BorderSide(width: 1, color: AppColor.placeholder), //<-- SEE HERE
           borderRadius: BorderRadius.circular(50.0),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(width: 1, color: AppColor.dark), //<-- SEE HERE
+          borderSide:
+              BorderSide(width: 1, color: AppColor.placeholder), //<-- SEE HERE
           borderRadius: BorderRadius.circular(50.0),
         ),
         disabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(width: 1, color: AppColor.dark), //<-- SEE HERE
+          borderSide:
+              BorderSide(width: 1, color: AppColor.placeholder), //<-- SEE HERE
           borderRadius: BorderRadius.circular(50.0),
         ),
         border: OutlineInputBorder(
-          borderSide: BorderSide(width: 1, color: AppColor.dark), //<-- SEE HERE
+          borderSide:
+              BorderSide(width: 1, color: AppColor.placeholder), //<-- SEE HERE
           borderRadius: BorderRadius.circular(50.0),
         ),
         suffixIcon: labelText == "Password"
             ? InkWell(
-          onTap: () {
-            setState(() {
-              if (_obscureText == true) {
-                _obscureText = false;
-              } else {
-                _obscureText = true;
-              }
-            });
-          },
-          child: Icon(
-              _obscureText ? Icons.visibility : Icons.visibility_off,
-              color: AppColor.main,size: screenWidth * 5,),
-        )
+                onTap: () {
+                  setState(() {
+                    if (_obscureText == true) {
+                      _obscureText = false;
+                    } else {
+                      _obscureText = true;
+                    }
+                  });
+                },
+                child: Icon(
+                  _obscureText ? Icons.visibility : Icons.visibility_off,
+                  color: AppColor.main,
+                  size: screenWidth * 5,
+                ),
+              )
             : null);
   }
 }
