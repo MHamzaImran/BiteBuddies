@@ -53,7 +53,11 @@ Thanks for your love and support 🙏
 
 ## Firebase Integration In Android Studio
 Check for keytool keyword interminal
+
 Then run the below commands:
+
 keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
+
 keytool -list -v -keystore "C:\Users\hamza\debug.keystore" -alias androiddebugkey -storepass android -keypass androi
+
 These commands will give the SHI Fingerprint Certificate
