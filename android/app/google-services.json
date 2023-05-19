@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "277520899434",
+    "project_id": "bitebuddies-fd29b",
+    "storage_bucket": "bitebuddies-fd29b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:277520899434:android:df4568963522ac9b1ad913",
+        "android_client_info": {
+          "package_name": "com.example.bite_buddies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "277520899434-3ippdeh2e4mt82070kupg7lolsv88tt8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5r7xE582eJiPOr9PFw42RvyFTr-Tgssk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "277520899434-3ippdeh2e4mt82070kupg7lolsv88tt8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

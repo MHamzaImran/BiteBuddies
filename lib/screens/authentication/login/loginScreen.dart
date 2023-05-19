@@ -54,6 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
     var screenHeight = queryData.size.width / 100;
+    var screenWidth = queryData.size.width / 100;
     return Scaffold(
       backgroundColor: AppColor.bright,
       body: SafeArea(
@@ -62,13 +63,13 @@ class _LoginScreenState extends State<LoginScreen> {
           child: ListView(
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal:screenHeight * 30),
-                child: SizedBox(
-                  height: screenHeight * 40,
-                  child: Image.asset(
-                    Helper.getAssetName("logo.png", "virtual"),
-                    fit: BoxFit.fill,
-                  ),
+                padding: EdgeInsets.only(
+                    left: screenWidth * 30,
+                    right: screenWidth * 30,
+                    top: screenWidth * 0),
+                child: Image.asset(
+                  Helper.getAssetName("logo.png", "virtual"),
+                  fit: BoxFit.fitWidth,
                 ),
               ),
               Center(

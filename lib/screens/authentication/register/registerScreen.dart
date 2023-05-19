@@ -43,7 +43,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       if (!focusNode1.hasFocus) {
         field1Key.currentState?.validate();
       }
-      
     });
     focusNode2 = FocusNode();
     focusNode2.addListener(() {
@@ -93,10 +92,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
     var screenWidth = queryData.size.width / 100;
+    var screenHeight = queryData.size.height / 100;
     return Scaffold(
         body: SafeArea(
       child: Padding(
-        padding: EdgeInsets.all(screenWidth * 5),
+        padding: EdgeInsets.all(screenHeight *2),
         child: ListView(
           children: [
             Padding(
@@ -258,10 +258,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       field3Key.currentState.validate() &&
                       field4Key.currentState.validate() &&
                       field5Key.currentState.validate()) {
-                    Navigator.of(context)
-                        .pushNamed(BottomNavigation.routeName);
+                    Navigator.of(context).pushNamed(BottomNavigation.routeName);
                   }
-                 
                 },
                 child: Text(
                   "Sign Up",
@@ -404,19 +402,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
         floatingLabelStyle:
             TextStyle(color: AppColor.dark, fontSize: screenWidth * 3.5),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(width: 1, color: AppColor.placeholder), //<-- SEE HERE
+          borderSide:
+              BorderSide(width: 1, color: AppColor.placeholder), //<-- SEE HERE
           borderRadius: BorderRadius.circular(50.0),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(width: 1, color: AppColor.placeholder), //<-- SEE HERE
+          borderSide:
+              BorderSide(width: 1, color: AppColor.placeholder), //<-- SEE HERE
           borderRadius: BorderRadius.circular(50.0),
         ),
         disabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(width: 1, color: AppColor.placeholder), //<-- SEE HERE
+          borderSide:
+              BorderSide(width: 1, color: AppColor.placeholder), //<-- SEE HERE
           borderRadius: BorderRadius.circular(50.0),
         ),
         border: OutlineInputBorder(
-          borderSide: BorderSide(width: 1, color: AppColor.placeholder), //<-- SEE HERE
+          borderSide:
+              BorderSide(width: 1, color: AppColor.placeholder), //<-- SEE HERE
           borderRadius: BorderRadius.circular(50.0),
         ),
         suffixIcon: labelText == "Password"

@@ -1,4 +1,6 @@
+import 'package:bite_buddies/firebase_options.dart';
 import 'package:bite_buddies/screens/navbar/bottom_navbar.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:bite_buddies/screens/more/changeAddressScreen.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
@@ -26,8 +28,11 @@ import 'screens/more/orders/myOrderScreen.dart';
 import 'screens/more/checkoutScreen.dart';
 import './const/colors.dart';
 
-void main() {
-  runApp(Phoenix(child: MyApp())); 
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(Phoenix(child: Phoenix(child: MyApp())));
 }
 
 class MyApp extends StatelessWidget {
