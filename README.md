@@ -36,6 +36,9 @@ This is our complete food delivery app, where I will share with you how you can 
 => Bottom Navigation Bar
 
 
+
+
+
 Thanks for your love and support 🙏 
 
 ## Photos
@@ -46,3 +49,15 @@ Thanks for your love and support 🙏
 ![Preview](https://i.ibb.co/9vhkDqX/5.png)
 ![Preview](https://i.ibb.co/XFXnRTc/6.png)
 ![Preview](https://i.ibb.co/5RXvk8s/7.png)
+
+
+## Firebase Integration In Android Studio
+Check for keytool keyword interminal
+
+Then run the below commands:
+
+keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
+
+keytool -list -v -keystore "C:\Users\hamza\debug.keystore" -alias androiddebugkey -storepass android -keypass androi
+
+These commands will give the SHI Fingerprint Certificate
