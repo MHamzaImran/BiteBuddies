@@ -1,45 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:bite_buddies/const/colors.dart';
-import 'package:bite_buddies/utils/helper.dart';
+
+import '../../../widgets/custom_appbar.dart';
 
 class AboutScreen extends StatelessWidget {
   static const routeName = "/aboutScreen";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: customAppBar(context, title: 'About Us'),
       body: Stack(
         children: [
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
+              child: ListView(
                 children: [
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        icon: Icon(
-                          Icons.arrow_back_ios_rounded,
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          "About Us",
-                          style: Helper.getTheme(context).headline5,
-                        ),
-                      ),
-                      Image.asset(
-                        Helper.getAssetName("cart.png", "virtual"),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
                   Column(
                     children: [
+                      SizedBox(
+                        height: 20,
+                      ),
+                      AboutCard(),
+                      SizedBox(
+                        height: 20,
+                      ),
                       AboutCard(),
                       SizedBox(
                         height: 20,
@@ -49,6 +34,13 @@ class AboutScreen extends StatelessWidget {
                         height: 20,
                       ),
                       AboutCard(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      AboutCard(),
+                      SizedBox(
+                        height: 20,
+                      ),
                     ],
                   ),
                 ],

@@ -1,6 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../const/colors.dart';
-import '../../navbar/bottom_navbar.dart';
 import '../login/loginScreen.dart';
 import '../../../utils/helper.dart';
 
@@ -13,6 +14,8 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   bool _obscureText = true;
+  bool isLoading = false;
+
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
@@ -87,6 +90,90 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
   }
 
+  // Future<void> signUpWithGoogle() async {
+  //
+  //   try {
+  //     // Configure Google sign-in.
+  //     final GoogleSignIn googleSignIn = GoogleSignIn();
+  //     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+  //
+  //     // Get the authentication credentials.
+  //     final GoogleSignInAuthentication googleAuth = await googleSignInAccount.authentication;
+  //     final AuthCredential credential = GoogleAuthProvider.credential(
+  //       accessToken: googleAuth.accessToken,
+  //       idToken: googleAuth.idToken,
+  //     );
+  //
+  //     // Sign in with Firebase using the obtained credential.
+  //     final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+  //
+  //     // Access the user information.
+  //     final User user = userCredential.user;
+  //
+  //     // Print the user's display name and email.
+  //     print('User signed up with Google:');
+  //     print('Display Name: ${user?.displayName}');
+  //     print('Email: ${user?.email}');
+  //
+  //     // Perform additional actions or navigate to a new screen.
+  //     // ...
+  //   } catch (e) {
+  //     print('Google sign-up failed: $e');
+  //   }
+  // }
+
+  Future<void> registerWithEmailPassword() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+
+      // User registration successful
+      User user = userCredential.user;
+      print('User registered with email: ${user?.email}');
+      addUserToFireStore(
+        nameController.text,
+        emailController.text,
+        phoneController.text,
+        addressController.text,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Registration Successful!"),));
+      setState(() {
+        isLoading = false;
+      });
+      Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+    } catch (e) {
+      // Handle registration errors
+      print('Registration failed: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<void> addUserToFireStore(
+      String name, String email, String contact, String address) async {
+    try {
+      await FirebaseFirestore.instance.collection('users').add({
+        'name': name,
+        'email': email,
+        'contact': contact,
+        'address': address,
+        'profile': '',
+      });
+      print('User data added to FireStore');
+    } catch (e) {
+      // Handle errors
+      print('Error adding user data to FireStore: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData;
@@ -96,7 +183,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
         body: SafeArea(
       child: Padding(
-        padding: EdgeInsets.all(screenHeight *2),
+        padding: EdgeInsets.all(screenHeight * 2),
         child: ListView(
           children: [
             Padding(
@@ -170,7 +257,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     return 'Please enter some text';
                   }
                   // mobile number validation using regex
-                  else if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
+                  else if (!RegExp(r'^[0-9]{11}$').hasMatch(value)) {
                     return 'Please enter a valid mobile number';
                   }
                   return null;
@@ -258,10 +345,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       field3Key.currentState.validate() &&
                       field4Key.currentState.validate() &&
                       field5Key.currentState.validate()) {
-                    Navigator.of(context).pushNamed(BottomNavigation.routeName);
+                    registerWithEmailPassword();
+                    // Navigator.of(context).pushNamed(BottomNavigation.routeName);
                   }
                 },
-                child: Text(
+                child: isLoading ? Padding(
+                  padding: EdgeInsets.all(screenWidth * 2),
+                  child: CircularProgressIndicator( color: Colors.white, strokeWidth: screenWidth * 0.5,),
+                ):Text(
                   "Sign Up",
                   style: TextStyle(
                       fontSize: screenWidth * 3.5, color: AppColor.bright),

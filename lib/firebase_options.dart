@@ -47,30 +47,30 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBaQMPbhOObe0Ril4PzxKgvYBqj9Q5SLdA',
-    appId: '1:277520899434:web:c891d1fd37c2a62d1ad913',
-    messagingSenderId: '277520899434',
-    projectId: 'bitebuddies-fd29b',
-    authDomain: 'bitebuddies-fd29b.firebaseapp.com',
-    storageBucket: 'bitebuddies-fd29b.appspot.com',
-    measurementId: 'G-E0F62NW3B8',
+    apiKey: 'AIzaSyBV9XOEC_91zYb8hPallwqEqKVw2mrbwvY',
+    appId: '1:117995460074:web:33941d136f0798fd5e8e93',
+    messagingSenderId: '117995460074',
+    projectId: 'bitebuddies-61eeb',
+    authDomain: 'bitebuddies-61eeb.firebaseapp.com',
+    storageBucket: 'bitebuddies-61eeb.appspot.com',
+    measurementId: 'G-8VNBL7JD75',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC5r7xE582eJiPOr9PFw42RvyFTr-Tgssk',
-    appId: '1:277520899434:android:df4568963522ac9b1ad913',
-    messagingSenderId: '277520899434',
-    projectId: 'bitebuddies-fd29b',
-    storageBucket: 'bitebuddies-fd29b.appspot.com',
+    apiKey: 'AIzaSyAZXCOXmpgMwe5mJjsG9ou2fhksud22tq4',
+    appId: '1:117995460074:android:b52b322abb92b6065e8e93',
+    messagingSenderId: '117995460074',
+    projectId: 'bitebuddies-61eeb',
+    storageBucket: 'bitebuddies-61eeb.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDFrsjjZpN95dQ63TOVLXVC-lydTt0PVOw',
-    appId: '1:277520899434:ios:95f2fe0652928ce31ad913',
-    messagingSenderId: '277520899434',
-    projectId: 'bitebuddies-fd29b',
-    storageBucket: 'bitebuddies-fd29b.appspot.com',
-    iosClientId: '277520899434-1poq8jt1ud3e6tgan1jap2blak13uijk.apps.googleusercontent.com',
+    apiKey: 'AIzaSyCE5VRLHtBJyl_B_erk5PUif_9QmsAXmtI',
+    appId: '1:117995460074:ios:5e69f8c6c5d640ad5e8e93',
+    messagingSenderId: '117995460074',
+    projectId: 'bitebuddies-61eeb',
+    storageBucket: 'bitebuddies-61eeb.appspot.com',
+    iosClientId: '117995460074-q9akgv1vei2in1rpemmf9ce955s4afc9.apps.googleusercontent.com',
     iosBundleId: 'com.example.monkeyAppDemo',
   );
 }

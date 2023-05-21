@@ -1,7 +1,14 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../const/colors.dart';
 import '../../utils/helper.dart';
+import '../cart/cart_data.dart';
+import '../cart/cart_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = "/homeScreen";
@@ -12,24 +19,90 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool showSearch = false;
+  Uint8List _imageBytes;
+  String profileImageString;
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
 
+  // get user data
+
+  final CollectionReference usersCollection =
+      FirebaseFirestore.instance.collection('users');
+
+  Future<DocumentSnapshot> getUserData(String email) async {
+    QuerySnapshot querySnapshot =
+        await usersCollection.where('email', isEqualTo: email).limit(1).get();
+    if (querySnapshot.docs.isNotEmpty) {
+      return querySnapshot.docs.first;
+    } else {
+      throw Exception('User not found');
+    }
+  }
+
+  void fetchUserData() async {
+    try {
+      String email = await fetchEmail();
+      DocumentSnapshot userSnapshot = await getUserData(email);
+      Map<String, dynamic> userData =
+          userSnapshot.data() as Map<String, dynamic>;
+
+      String name = userData['name'];
+      String contact = userData['contact'];
+      String address = userData['address'];
+
+      // Now you can use the fetched user details as desired
+      print('Name: $name');
+
+      print('Contact: $contact');
+      print('Address: $address');
+      setState(() {
+        nameController.text = userData['name'];
+        addressController.text = userData['address'];
+        if (userData['profileImage'] != null) {
+          // Decode the base64-encoded string back to Uint8List
+          Uint8List imageBytes = base64Decode(userData['profileImage']);
+          _imageBytes = imageBytes;
+        }
+      });
+    } catch (e) {
+      // Handle errors
+      print('Error fetching user data: $e');
+    }
+  }
+
+  // Fetch the email from shared preferences
+  Future<String> fetchEmail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String email = prefs.getString('email');
+    print('Fetched email from shared preferences: $email');
+    return email;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserData();
+  }
+
+  Cart cart = Cart();
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
     var screenWidth = queryData.size.width / 100;
+    var screenHeight = queryData.size.height / 100;
     return Scaffold(
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Hamza Imran",
+            Text(nameController.text,
                 style: TextStyle(
                   color: AppColor.dark,
                   fontSize: 16,
                 )),
             Text(
-              "Ghazali Hostels",
+              addressController.text,
               style: TextStyle(
                 color: AppColor.dark,
                 fontSize: 12,
@@ -43,9 +116,31 @@ class _HomeScreenState extends State<HomeScreen> {
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: CircleAvatar(
-            radius: 20,
-            backgroundImage: AssetImage(
-              Helper.getAssetName("user.jpg", "real"),
+            radius: screenHeight * 2,
+            backgroundColor: AppColor.placeholder,
+            child: _imageBytes != null
+                ? Container(
+              width: screenHeight * 5,
+              height: screenHeight * 5,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: MemoryImage(_imageBytes),
+                ),
+              ),
+            )
+                : Container(
+              width: screenHeight * 15,
+              height: screenHeight * 15,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image:
+                  AssetImage('assets/images/real/fruit.jpg'),
+                ),
+              ),
             ),
           ),
         ),
@@ -54,21 +149,27 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             onPressed: () {
               setState(() {
-                if(showSearch) {
+                if (showSearch) {
                   showSearch = false;
-                }
-                else{
-                  showSearch=true;
+                } else {
+                  showSearch = true;
                 }
               });
             },
             icon: Icon(
-              showSearch?Icons.close:Icons.search,
+              showSearch ? Icons.close : Icons.search,
               color: AppColor.primary,
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CartScreen(cart: cart),
+                ),
+              );
+            },
             icon: Icon(
               Icons.shopping_cart_outlined,
               color: AppColor.primary,
@@ -85,28 +186,34 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: EdgeInsets.all(screenWidth * 2),
         child: Column(
           children: [
-            showSearch?Padding(
-              padding: EdgeInsets.symmetric(horizontal: screenWidth * 5,vertical: screenWidth * 2),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: screenWidth * 5),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    border: Border.all(color: AppColor.primary)),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: "Search for food",
-                          border: InputBorder.none,
-                        ),
+            showSearch
+                ? Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 5, vertical: screenWidth * 2),
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: screenWidth * 5),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          border: Border.all(color: AppColor.primary)),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: "Search for food",
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                          Icon(Icons.search),
+                        ],
                       ),
                     ),
-                    Icon(Icons.search),
-                  ],
-                ),
-              ),
-            ):SizedBox(height: 0,),
+                  )
+                : SizedBox(
+                    height: 0,
+                  ),
             Expanded(
               child: ListView(
                 children: [
@@ -641,10 +748,12 @@ class CategoryCard extends StatelessWidget {
               //     ),
               //   ),
               // ),
-              Padding(padding: EdgeInsets.symmetric(horizontal :screenWidth * 2), child: _image),
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 2),
+                  child: _image),
               Text(
                 _name,
-               style: TextStyle(fontSize: screenWidth * 3),
+                style: TextStyle(fontSize: screenWidth * 3),
               ),
             ],
           ),

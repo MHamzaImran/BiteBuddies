@@ -3,34 +3,19 @@ import 'package:bite_buddies/const/colors.dart';
 import 'package:bite_buddies/screens/more/checkoutScreen.dart';
 import 'package:bite_buddies/utils/helper.dart';
 
+import '../../../widgets/custom_appbar.dart';
+
 class MyOrderScreen extends StatelessWidget {
   static const routeName = "/myOrderScreen";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: customAppBar(context, title: 'My Order'),
       body: Stack(
         children: [
           SafeArea(
             child: Column(
               children: [
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_ios_rounded,
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        "My Order",
-                        style: Helper.getTheme(context).headline5,
-                      ),
-                    )
-                  ],
-                ),
                 SizedBox(
                   height: 20,
                 ),

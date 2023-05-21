@@ -1,160 +1,137 @@
 import 'package:flutter/material.dart';
-import 'package:bite_buddies/const/colors.dart';
-import 'package:bite_buddies/utils/helper.dart';
+
+import '../../../widgets/custom_appbar.dart';
 
 class InboxScreen extends StatelessWidget {
   static const routeName = "/inboxScreen";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+      appBar: customAppBar(context, title: 'Inbox'),
+      body: ListView(
+        padding: EdgeInsets.all(16.0),
         children: [
-          SafeArea(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        icon: Icon(Icons.arrow_back_ios_rounded),
-                      ),
-                      Expanded(
-                        child: Text(
-                          "Inbox",
-                          style: Helper.getTheme(context).headline5,
-                        ),
-                      ),
-                      Image.asset(
-                        Helper.getAssetName("cart.png", "virtual"),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                MailCard(
-                  title: "MealMonkey Promotions",
-                  description:
-                      "Lorem Ipsum dolor sit amet,consectetur adipiscing elit, sed do eiusmod tempor ",
-                  time: "6th July",
-                ),
-                MailCard(
-                  title: "MealMonkey Promotions",
-                  description:
-                      "Lorem Ipsum dolor sit amet,consectetur adipiscing elit, sed do eiusmod tempor ",
-                  time: "6th July",
-                  color: AppColor.bright,
-                ),
-                MailCard(
-                  title: "MealMonkey Promotions",
-                  description:
-                      "Lorem Ipsum dolor sit amet,consectetur adipiscing elit, sed do eiusmod tempor ",
-                  time: "6th July",
-                ),
-                MailCard(
-                  title: "MealMonkey Promotions",
-                  description:
-                      "Lorem Ipsum dolor sit amet,consectetur adipiscing elit, sed do eiusmod tempor ",
-                  time: "6th July",
-                  color: AppColor.bright,
-                ),
-                MailCard(
-                  title: "MealMonkey Promotions",
-                  description:
-                      "Lorem Ipsum dolor sit amet,consectetur adipiscing elit, sed do eiusmod tempor ",
-                  time: "6th July",
-                ),
-                MailCard(
-                  title: "MealMonkey Promotions",
-                  description:
-                      "Lorem Ipsum dolor sit amet,consectetur adipiscing elit, sed do eiusmod tempor ",
-                  time: "6th July",
-                ),
-              ],
-            ),
+          MessageTile(
+            sender: 'John Doe',
+            subject: 'Important Notice',
+            message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            time: '10:30 AM',
           ),
+          MessageTile(
+            sender: 'Jane Smith',
+            subject: 'Meeting Reminder',
+            message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            time: 'Yesterday',
+          ),
+          MessageTile(
+            sender: 'David Johnson',
+            subject: 'New Offer',
+            message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            time: '2 days ago',
+          ),
+          MessageTile(
+            sender: 'John Doe',
+            subject: 'Important Notice',
+            message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            time: '10:30 AM',
+          ),
+          MessageTile(
+            sender: 'Jane Smith',
+            subject: 'Meeting Reminder',
+            message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            time: 'Yesterday',
+          ),
+          MessageTile(
+            sender: 'David Johnson',
+            subject: 'New Offer',
+            message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            time: '2 days ago',
+          ),
+          MessageTile(
+            sender: 'John Doe',
+            subject: 'Important Notice',
+            message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            time: '10:30 AM',
+          ),
+          MessageTile(
+            sender: 'Jane Smith',
+            subject: 'Meeting Reminder',
+            message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            time: 'Yesterday',
+          ),
+          MessageTile(
+            sender: 'David Johnson',
+            subject: 'New Offer',
+            message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            time: '2 days ago',
+          ),
+          MessageTile(
+            sender: 'John Doe',
+            subject: 'Important Notice',
+            message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            time: '10:30 AM',
+          ),
+          MessageTile(
+            sender: 'Jane Smith',
+            subject: 'Meeting Reminder',
+            message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            time: 'Yesterday',
+          ),
+          MessageTile(
+            sender: 'David Johnson',
+            subject: 'New Offer',
+            message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            time: '2 days ago',
+          ),
+          // Add more message tiles here
         ],
       ),
     );
   }
 }
 
-class MailCard extends StatelessWidget {
-  const MailCard({
-    Key key,
-    String time,
-    String title,
-    String description,
-    Color color = Colors.white,
-  })  : _time = time,
-        _title = title,
-        _description = description,
-        _color = color,
-        super(key: key);
+class MessageTile extends StatelessWidget {
+  final String sender;
+  final String subject;
+  final String message;
+  final String time;
 
-  final String _time;
-  final String _title;
-  final String _description;
-  final Color _color;
+  const MessageTile({
+    Key key,
+    @required this.sender,
+    @required this.subject,
+    @required this.message,
+    @required this.time,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 80,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: _color,
-        border: Border(
-          bottom: BorderSide(
-            color: AppColor.placeholder,
-            width: 0.5,
-          ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: ListTile(
+        leading: CircleAvatar(
+          child: Text(sender[0]),
         ),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CircleAvatar(
-            backgroundColor: AppColor.main,
-            radius: 5,
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  _title,
-                  style: TextStyle(
-                    color: AppColor.primary,
-                  ),
-                ),
-                SizedBox(height: 5),
-                Text(_description),
-              ],
+        title: Text(
+          sender,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              subject,
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                _time,
-                style: TextStyle(
-                  fontSize: 10,
-                ),
-              ),
-              Image.asset(Helper.getAssetName("star.png", "virtual"))
-            ],
-          ),
-        ],
+            SizedBox(height: 4),
+            Text(
+              message,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+        trailing: Text(time),
       ),
     );
   }

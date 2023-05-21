@@ -26,6 +26,13 @@ dependencies:
   clip_shadow: ^0.2.1
   custom_top_navigator: ^0.0.3
   firebase_core: ^2.13.0
+  firebase_auth: ^4.6.1
+  google_sign_in: ^6.1.0
+  cloud_firestore: ^4.7.1
+  shared_preferences: ^2.1.1
+  image_picker: ^0.8.7+5
+  fluttertoast: ^8.2.1
+  provider: ^6.0.5
   # For restart_app. 
   flutter_phoenix:
 

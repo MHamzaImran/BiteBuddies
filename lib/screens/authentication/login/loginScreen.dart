@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bite_buddies/screens/authentication/forgetPasswordScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../const/colors.dart';
 import '../../navbar/bottom_navbar.dart';
@@ -8,13 +10,14 @@ import '../../../utils/helper.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = "/loginScreen";
-
+  
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _obscureText = true;
+  bool isLoading = false;
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -49,6 +52,43 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  Future<void> signInWithEmailPassword() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+
+      // User is signed in
+      User user = userCredential.user;
+      print('User signed in with email: ${user?.email}');
+      storeEmail(emailController.text);
+      setState(() {
+        isLoading = false;
+      });
+      Navigator.of(context)
+          .pushNamed(BottomNavigation.routeName);
+    } catch (e) {
+      // Handle login errors
+      print('Login failed: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  // Store the email in shared preferences
+  Future<void> storeEmail(String email) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('email'); // Remove the previously stored email
+    await prefs.setString('email', email); // Store the new email
+    print('Email stored in shared preferences: $email');
+  }
+
+  
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData;
@@ -143,12 +183,25 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (field1Key.currentState.validate() &&
                         field2Key.currentState.validate()) {
                       // if all fields are valid, proceed to login
-                      print('Login Successful');
-                      Navigator.of(context)
-                          .pushNamed(BottomNavigation.routeName);
+
+                      try {
+                        signInWithEmailPassword();
+                        // Navigator.of(context)
+                        //     .pushNamed(BottomNavigation.routeName);
+                      }
+                      catch(e){
+                        print('Login Failed');
+                        print("Error is: ${e}");
+                      }
+                      
+                      
+                      
                     }
                   },
-                  child: Text(
+                  child: isLoading ? Padding(
+                    padding: EdgeInsets.all(screenWidth * 2),
+                    child: CircularProgressIndicator( color: Colors.white, strokeWidth: screenWidth * 0.5,),
+                  ):Text(
                     "Login",
                     style: TextStyle(
                         fontSize: screenHeight * 4, color: AppColor.bright),

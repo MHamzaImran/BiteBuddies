@@ -1,83 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:bite_buddies/const/colors.dart';
-import 'package:bite_buddies/utils/helper.dart';
+
+import '../../../widgets/custom_appbar.dart';
+import 'notifications_data.dart';
 
 class NotificationScreen extends StatelessWidget {
   static const routeName = "/notiScreen";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          SafeArea(
-              child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_ios_rounded,
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        "Notifications",
-                        style: Helper.getTheme(context).headline5,
-                      ),
-                    ),
-                    Image.asset(
-                      Helper.getAssetName("cart.png", "virtual"),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              NotiCard(
-                title: "Your order has been picked up",
-                time: "Now",
-              ),
-              NotiCard(
-                title: "Your order has been delivered",
-                time: "1 h ago",
-                color: AppColor.bright,
-              ),
-              NotiCard(
-                title: "Lorem ipsum dolor sit amet, consectetur",
-                time: "3 h ago",
-              ),
-              NotiCard(
-                title: "Lorem ipsum dolor sit amet, consectetur",
-                time: "5 h ago",
-              ),
-              NotiCard(
-                title: "Lorem ipsum dolor sit amet, consectetur",
-                time: "05 Sep 2020",
-                color: AppColor.bright,
-              ),
-              NotiCard(
-                title: "Lorem ipsum dolor sit amet, consectetur",
-                time: "12 Aug 2020",
-                color: AppColor.bright,
-              ),
-              NotiCard(
-                title: "Lorem ipsum dolor sit amet, consectetur",
-                time: "20 Jul 2020",
-              ),
-              NotiCard(
-                title: "Lorem ipsum dolor sit amet, consectetur",
-                time: "12 Jul 2020",
-              ),
-            ],
-          )),
-        ],
-      ),
+      appBar: customAppBar(context, title: 'Notifications'),
+      body: ListView.builder(
+        itemCount: NotificationsData.notifications.length,
+        itemBuilder: (context, index) {
+          final notification = NotificationsData.notifications[index];
+          return ListTile(
+            leading: Icon(Icons.notifications),
+            title: Text(notification.message),
+            subtitle: Text(notification.time),
+          );
+        },
+      )
     );
   }
 }

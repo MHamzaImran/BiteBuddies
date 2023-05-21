@@ -1,4 +1,5 @@
 import 'package:bite_buddies/screens/more/payment/paymentScreen.dart';
+import 'package:bite_buddies/screens/more/privacy/privacy_screen.dart';
 import 'package:bite_buddies/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:bite_buddies/const/colors.dart';
@@ -110,6 +111,13 @@ class MoreScreen extends StatelessWidget {
             title: "Privacy Policy",
             icon: Icons.privacy_tip_outlined,
             color: Colors.teal,
+            onTap: (){
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => PrivacyPolicyScreen(),
+                ),
+              );
+            }
           ),
           moreTile(
             screenWidth,
