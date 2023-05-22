@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:bite_buddies/const/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../operations/permission_handler.dart';
 import '../../widgets/custom_appbar.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -124,9 +125,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  // Future<File> _pickImageFromGallery() async {
+  //   final picker = ImagePicker();
+  //   final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+  //   if (pickedImage != null) {
+  //     final imageBytes = await pickedImage.readAsBytes();
+  //     setState(() {
+  //       _imageBytes = imageBytes;
+  //       profileImageString = base64Encode(imageBytes);
+  //     });
+  //     return File(pickedImage.path);
+  //   }
+  //   return null;
+  // }
+  //
+  // Future<File> _pickImageFromCamera() async {
+  //   final picker = ImagePicker();
+  //   final pickedImage = await picker.pickImage(source: ImageSource.camera);
+  //   if (pickedImage != null) {
+  //     final imageBytes = await pickedImage.readAsBytes();
+  //     setState(() {
+  //       _imageBytes = imageBytes;
+  //       profileImageString = base64Encode(imageBytes);
+  //     });
+  //     return File(pickedImage.path);
+  //   }
+  //   return null;
+  // }
+
+
   Future<File> _pickImageFromGallery() async {
+    bool hasPermission = await checkGalleryPermission();
+    if (!hasPermission) {
+      bool granted = await requestGalleryPermission();
+      if (!granted) {
+        // Permission not granted, handle accordingly
+        return null;
+      }
+    }
+
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+
     if (pickedImage != null) {
       final imageBytes = await pickedImage.readAsBytes();
       setState(() {
@@ -135,12 +175,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
       return File(pickedImage.path);
     }
+
     return null;
   }
 
   Future<File> _pickImageFromCamera() async {
+    bool hasPermission = await checkCameraPermission();
+    if (!hasPermission) {
+      bool granted = await requestCameraPermission();
+      if (!granted) {
+        // Permission not granted, handle accordingly
+        return null;
+      }
+    }
+
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: ImageSource.camera);
+
     if (pickedImage != null) {
       final imageBytes = await pickedImage.readAsBytes();
       setState(() {
@@ -149,6 +200,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
       return File(pickedImage.path);
     }
+
     return null;
   }
 

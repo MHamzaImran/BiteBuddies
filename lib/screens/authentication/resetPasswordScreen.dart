@@ -1,6 +1,6 @@
+import 'package:bite_buddies/screens/authentication/login/loginScreen.dart';
 import 'package:flutter/material.dart';
 import '../../const/colors.dart';
-import '../intro/introScreen.dart';
 
 class NewPwScreen extends StatefulWidget {
   static const routeName = "/newPw";
@@ -182,7 +182,7 @@ class _NewPwScreenState extends State<NewPwScreen> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context)
-                        .pushReplacementNamed(IntroScreen.routeName);
+                        .pushReplacementNamed(LoginScreen.routeName);
                   },
                   child: Text("Next",style: TextStyle(fontSize: screenWidth * 3.5),),
                 ),

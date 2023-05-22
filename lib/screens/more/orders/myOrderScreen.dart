@@ -2,13 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:bite_buddies/const/colors.dart';
 import 'package:bite_buddies/screens/more/checkoutScreen.dart';
 import 'package:bite_buddies/utils/helper.dart';
-
 import '../../../widgets/custom_appbar.dart';
+import '../../cart/cart_data.dart';
 
 class MyOrderScreen extends StatelessWidget {
   static const routeName = "/myOrderScreen";
+
+  // method to calculate price total
+  double calculateTotal(List items) {
+    double total = 0;
+    for (var i = 0; i < items.length; i++) {
+      total += items[i]['price'];
+    }
+    return total;
+  }
   @override
   Widget build(BuildContext context) {
+    double totalAmount = calculateTotal(items);
     return Scaffold(
       appBar: customAppBar(context, title: 'My Order'),
       body: Stack(
@@ -16,9 +26,7 @@ class MyOrderScreen extends StatelessWidget {
           SafeArea(
             child: Column(
               children: [
-                SizedBox(
-                  height: 20,
-                ),
+                SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: SizedBox(
@@ -28,91 +36,57 @@ class MyOrderScreen extends StatelessWidget {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(20),
-                          child: Container(
+                          child: Image.asset(
+                            items[0]['image'],
+                            fit: BoxFit.cover,
                             height: 80,
                             width: 80,
-                            child: Image.asset(
-                              Helper.getAssetName("hamburger.jpg", "real"),
-                              fit: BoxFit.cover,
-                            ),
                           ),
                         ),
-                        SizedBox(
-                          width: 10,
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                items[0]['name'],
+                                style: Helper.getTheme(context).headline3,
+                              ),
+                              Row(
+                                children: [
+                                  Image.asset(
+                                    Helper.getAssetName("star_filled.png", "virtual"),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(items[0]['rating'].toString(), style: TextStyle(color: AppColor.main)),
+                                  Text(" (${items[0]['reviews']} ratings)"),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(items[0]['type']),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 5),
+                                    child: Text(
+                                      ".",
+                                      style: TextStyle(
+                                        color: AppColor.main,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Text(items[0]['description']),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Text(
-                              "King Burgers",
-                              style: Helper.getTheme(context).headline3,
-                            ),
-                            Row(
-                              children: [
-                                Image.asset(
-                                  Helper.getAssetName(
-                                    "star_filled.png",
-                                    "virtual",
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "4.9",
-                                  style: TextStyle(
-                                    color: AppColor.main,
-                                  ),
-                                ),
-                                Text(" (124 ratings)"),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text("Burger"),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    bottom: 5,
-                                  ),
-                                  child: Text(
-                                    ".",
-                                    style: TextStyle(
-                                      color: AppColor.main,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                Text("Western Food"),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  height: 15,
-                                  child: Image.asset(
-                                    Helper.getAssetName(
-                                      "loc.png",
-                                      "virtual",
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text("No 03, 4th Lane, Newyork")
-                              ],
-                            )
-                          ],
-                        )
                       ],
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 30,
-                ),
+                SizedBox(height: 30),
                 Container(
                   width: double.infinity,
                   color: AppColor.bright,
@@ -120,27 +94,12 @@ class MyOrderScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Column(
                       children: [
-                        BurgerCard(
-                          price: "16",
-                          name: "Beef Burger",
-                        ),
-                        BurgerCard(
-                          price: "14",
-                          name: "Classic Burger",
-                        ),
-                        BurgerCard(
-                          price: "17",
-                          name: "Cheese Chicken Burger",
-                        ),
-                        BurgerCard(
-                          price: "15",
-                          name: "Chicken Legs Basket",
-                        ),
-                        BurgerCard(
-                          price: "6",
-                          name: "French Fries Large",
-                          isLast: true,
-                        ),
+                        for (var item in items)
+                          BurgerCard(
+                            price: item['price'].toString(),
+                            name: item['name'],
+                            isLast: item == items.last,
+                          ),
                       ],
                     ),
                   ),
@@ -167,72 +126,52 @@ class MyOrderScreen extends StatelessWidget {
                               ),
                             ),
                             TextButton(
-                                onPressed: () {},
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.add,
-                                      color: AppColor.main,
-                                    ),
-                                    Text(
-                                      "Add Notes",
-                                      style: TextStyle(
-                                        color: AppColor.main,
-                                      ),
-                                    )
-                                  ],
-                                ))
+                              onPressed: () {},
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.add,
+                                    color: AppColor.main,
+                                  ),
+                                  Text(
+                                    "Add Notes",
+                                    style: TextStyle(color: AppColor.main),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              "Sub Total",
-                              style: Helper.getTheme(context).headline3,
-                            ),
-                          ),
-                          Text(
-                            "\$68",
-                            style: Helper.getTheme(context).headline3.copyWith(
-                                  color: AppColor.main,
+                      SizedBox(height: 15),
+                      for (var item in items)
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                "${item['name']} x1",
+                                style: TextStyle(
+                                  color: AppColor.primary,
+                                  fontSize: 16,
                                 ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              "Delivery Cost",
-                              style: Helper.getTheme(context).headline3,
+                              ),
                             ),
-                          ),
-                          Text(
-                            "\$2",
-                            style: Helper.getTheme(context).headline3.copyWith(
-                                  color: AppColor.main,
-                                ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                            Text(
+                              "\$${item['price']}",
+                              style: TextStyle(
+                                color: AppColor.primary,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
+                      SizedBox(height: 10),
                       Divider(
                         color: AppColor.placeholder.withOpacity(0.25),
                         thickness: 1.5,
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                      SizedBox(height: 10),
                       Row(
                         children: [
                           Expanded(
@@ -242,12 +181,12 @@ class MyOrderScreen extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "\$70",
+                            "\$$totalAmount",
                             style: Helper.getTheme(context).headline3.copyWith(
-                                  color: AppColor.main,
-                                  fontSize: 22,
-                                ),
-                          )
+                              color: AppColor.main,
+                              fontSize: 22,
+                            ),
+                          ),
                         ],
                       ),
                       SizedBox(height: 20),
@@ -267,7 +206,7 @@ class MyOrderScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -280,35 +219,33 @@ class MyOrderScreen extends StatelessWidget {
 class BurgerCard extends StatelessWidget {
   const BurgerCard({
     Key key,
-    String name,
-    String price,
-    bool isLast = false,
-  })  : _name = name,
-        _price = price,
-        _isLast = isLast,
-        super(key: key);
+    @required this.name,
+    @required this.price,
+    this.isLast = false,
+  }) : super(key: key);
 
-  final String _name;
-  final String _price;
-  final bool _isLast;
+  final String name;
+  final String price;
+  final bool isLast;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 50,
       decoration: BoxDecoration(
         border: Border(
-          bottom: _isLast
+          bottom: isLast
               ? BorderSide.none
               : BorderSide(
-                  color: AppColor.placeholder.withOpacity(0.25),
-                ),
+            color: AppColor.placeholder.withOpacity(0.25),
+          ),
         ),
       ),
       child: Row(
         children: [
           Expanded(
             child: Text(
-              "${_name} x1",
+              "$name x1",
               style: TextStyle(
                 color: AppColor.primary,
                 fontSize: 16,
@@ -316,13 +253,13 @@ class BurgerCard extends StatelessWidget {
             ),
           ),
           Text(
-            "\$$_price",
+            "\$$price",
             style: TextStyle(
               color: AppColor.primary,
               fontSize: 16,
               fontWeight: FontWeight.w900,
             ),
-          )
+          ),
         ],
       ),
     );

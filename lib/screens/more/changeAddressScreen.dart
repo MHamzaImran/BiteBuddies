@@ -1,3 +1,4 @@
+import 'package:bite_buddies/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:bite_buddies/const/colors.dart';
 import 'package:bite_buddies/utils/helper.dart';
@@ -8,27 +9,12 @@ class ChangeAddressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: customAppBar(context, title: 'Change Address'),
       body: Stack(
         children: [
           SafeArea(
             child: Column(
               children: [
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_ios_rounded,
-                      ),
-                    ),
-                    Text(
-                      "Change Address",
-                      style: Helper.getTheme(context).headline5,
-                    )
-                  ],
-                ),
                 SizedBox(
                   height: 30,
                 ),

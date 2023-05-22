@@ -14,7 +14,6 @@ import 'screens/authentication/register/registerScreen.dart';
 import 'screens/authentication/forgetPasswordScreen.dart';
 import 'screens/authentication/sentOTPScreen.dart';
 import 'screens/authentication/resetPasswordScreen.dart';
-import 'screens/intro/introScreen.dart';
 import 'screens/home/homeScreen.dart';
 import 'screens/menu/menuScreen.dart';
 import 'screens/more/moreScreen.dart';
@@ -109,7 +108,7 @@ class MyApp extends StatelessWidget {
               ForgetPwScreen.routeName: (context) => ForgetPwScreen(),
               SendOTPScreen.routeName: (context) => SendOTPScreen(),
               NewPwScreen.routeName: (context) => NewPwScreen(),
-              IntroScreen.routeName: (context) => IntroScreen(),
+              // IntroScreen.routeName: (context) => IntroScreen(),
               BottomNavigation.routeName: (context) => BottomNavigation(),
               HomeScreen.routeName: (context) => HomeScreen(),
               MenuScreen.routeName: (context) => MenuScreen(),
@@ -125,6 +124,7 @@ class MyApp extends StatelessWidget {
               MyOrderScreen.routeName: (context) => MyOrderScreen(),
               CheckoutScreen.routeName: (context) => CheckoutScreen(),
               ChangeAddressScreen.routeName: (context) => ChangeAddressScreen(),
+              
             },
           );
         },

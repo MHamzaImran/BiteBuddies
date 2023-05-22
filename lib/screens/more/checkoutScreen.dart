@@ -1,39 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:bite_buddies/const/colors.dart';
 import 'package:bite_buddies/screens/more/changeAddressScreen.dart';
-import 'package:bite_buddies/screens/home/homeScreen.dart';
 import 'package:bite_buddies/utils/helper.dart';
 import 'package:bite_buddies/widgets/customTextInput.dart';
 
+import '../../widgets/custom_appbar.dart';
+import '../cart/cart_data.dart';
+
 class CheckoutScreen extends StatelessWidget {
   static const routeName = "/checkoutScreen";
+
+  // method to calculate price total
+  double calculateTotal(List items) {
+    double total = 0;
+    for (var i = 0; i < items.length; i++) {
+      total += items[i]['price'];
+    }
+    return total;
+  }
+  
   @override
   Widget build(BuildContext context) {
+    double subTotal = calculateTotal(items);
+    double discount = (subTotal * 0.1);
+    discount = double.parse(discount.toStringAsFixed(2));
+    double deliveryFee = 2;
+    double total = subTotal - discount + deliveryFee;
     return Scaffold(
+      appBar: customAppBar(context, title: 'Checkout'),
       body: Stack(
         children: [
           SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_ios_rounded,
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        "Checkout",
-                        style: Helper.getTheme(context).headline5,
-                      ),
-                    ),
-                  ],
-                ),
                 SizedBox(
                   height: 20,
                 ),
@@ -58,8 +58,11 @@ class CheckoutScreen extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context)
-                              .pushNamed(ChangeAddressScreen.routeName);
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => ChangeAddressScreen(),
+                            ),
+                          );
                         },
                         child: Text(
                           "Change",
@@ -386,7 +389,7 @@ class CheckoutScreen extends StatelessWidget {
                         children: [
                           Text("Sub Total"),
                           Text(
-                            "\$68",
+                            "\$$subTotal",
                             style: Helper.getTheme(context).headline3,
                           )
                         ],
@@ -399,7 +402,7 @@ class CheckoutScreen extends StatelessWidget {
                         children: [
                           Text("Delivery Cost"),
                           Text(
-                            "\$2",
+                            "\$$deliveryFee",
                             style: Helper.getTheme(context).headline3,
                           )
                         ],
@@ -412,7 +415,7 @@ class CheckoutScreen extends StatelessWidget {
                         children: [
                           Text("Discount"),
                           Text(
-                            "-\$4",
+                            "-\$$discount",
                             style: Helper.getTheme(context).headline3,
                           )
                         ],
@@ -427,7 +430,7 @@ class CheckoutScreen extends StatelessWidget {
                         children: [
                           Text("Total"),
                           Text(
-                            "\$66",
+                            "\$$total",
                             style: Helper.getTheme(context).headline3,
                           )
                         ],
@@ -453,6 +456,11 @@ class CheckoutScreen extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Order Placed"),
+                          ),
+                        );
                         showModalBottomSheet(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
@@ -463,95 +471,86 @@ class CheckoutScreen extends StatelessWidget {
                             builder: (context) {
                               return Container(
                                 height: Helper.getScreenHeight(context) * 0.7,
-                                child: Column(
+                                child: ListView(
                                   children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
+                                    Column(
                                       children: [
-                                        IconButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          icon: Icon(Icons.clear),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            IconButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              icon: Icon(Icons.clear),
+                                            ),
+                                          ],
+                                        ),
+                                        Image.asset(
+                                          Helper.getAssetName(
+                                            "vector4.png",
+                                            "virtual",
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(
+                                          "Thank You!",
+                                          style: TextStyle(
+                                            color: AppColor.primary,
+                                            fontWeight: FontWeight.w900,
+                                            fontSize: 30,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          "for your order",
+                                          style: Helper.getTheme(context)
+                                              .headline4
+                                              .copyWith(color: AppColor.primary),
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20.0),
+                                          child: Text(
+                                              "Your order is now being processed. We will let you know once the order is picked from the outlet. Check the status of your order"),
+                                        ),
+                                        SizedBox(
+                                          height: 60,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 20,
+                                          ),
+                                          child: SizedBox(
+                                            height: 50,
+                                            width: double.infinity,
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                                Navigator.of(context).pop();
+                                                Navigator.of(context).pop();
+                                                Navigator.of(context).pop();
+                                                Cart().clearCart();
+                                              },
+                                              child: Text("Back to Homer"),
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
-                                    Image.asset(
-                                      Helper.getAssetName(
-                                        "vector4.png",
-                                        "virtual",
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Text(
-                                      "Thank You!",
-                                      style: TextStyle(
-                                        color: AppColor.primary,
-                                        fontWeight: FontWeight.w900,
-                                        fontSize: 30,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      "for your order",
-                                      style: Helper.getTheme(context)
-                                          .headline4
-                                          .copyWith(color: AppColor.primary),
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20.0),
-                                      child: Text(
-                                          "Your order is now being processed. We will let you know once the order is picked from the outlet. Check the status of your order"),
-                                    ),
-                                    SizedBox(
-                                      height: 60,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 20,
-                                      ),
-                                      child: SizedBox(
-                                        height: 50,
-                                        width: double.infinity,
-                                        child: ElevatedButton(
-                                          onPressed: () {},
-                                          child: Text("Track My Order"),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 20,
-                                      ),
-                                      child: TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context)
-                                              .pushReplacementNamed(
-                                                  HomeScreen.routeName);
-                                        },
-                                        child: Text(
-                                          "Back To Home",
-                                          style: TextStyle(
-                                            color: AppColor.primary,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    )
                                   ],
                                 ),
                               );
                             });
                       },
-                      child: Text("Send Order"),
+                      child: Text("Place Order"),
                     ),
                   ),
                 )
