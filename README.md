@@ -128,11 +128,16 @@ These commands will give the SHI Fingerprint Certificate
 
 ## Screenshots
 
-![Preview](assets/screenshots/1.jpg)
-![Preview](assets/screenshots/2.jpg)
-![Preview](assets/screenshots/3.jpg)
-![Preview](assets/screenshots/4.jpg)
-![Preview](assets/screenshots/5.jpg)
-![Preview](assets/screenshots/6.jpg)
-![Preview](assets/screenshots/7.jpg)
-![Preview](assets/screenshots/8.jpg)
+<p align="center">
+  <img src="assets/screenshots/1.jpg" width="200" alt="Screenshot 1">
+  <img src="assets/screenshots/2.jpg" width="200" alt="Screenshot 2">
+  <img src="assets/screenshots/3.jpg" width="200" alt="Screenshot 3">
+  <img src="assets/screenshots/4.jpg" width="200" alt="Screenshot 4">
+</p>
+
+<p align="center">
+  <img src="assets/screenshots/5.jpg" width="200" alt="Screenshot 5">
+  <img src="assets/screenshots/6.jpg" width="200" alt="Screenshot 6">
+  <img src="assets/screenshots/7.jpg" width="200" alt="Screenshot 7">
+  <img src="assets/screenshots/8.jpg" width="200" alt="Screenshot 8">
+</p>
